@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@11ty/eleventy": "^1.0.1",
+    "@11ty/eleventy-navigation": "^0.3.3",
     "alpinejs": "^3.10.2",
     "autoprefixer": "^10.4.7",
     "clean-css-cli": "^5.6.0",

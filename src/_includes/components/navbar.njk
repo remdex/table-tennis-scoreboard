@@ -3,13 +3,23 @@
         display: none;
     }
 </style>
+{% set navPages = collections.all | eleventyNavigation %}
 
 <div x-cloak x-data="{ menuOpen: false }">
   <header class="flex justify-between items-center px-4 lg:px-8 lg:pt-4 pt-2 h-16 z-20 bg-white" x-cloak>
     {% include "components/sitetitle.njk" %}
     {#  Desktop nav menu  on lg and larger #}
     <nav class="hidden lg:flex space-x-1 lg:space-x-2 items-center">
-      {% include "components/navlinks.njk" %}
+      {%- for entry in navPages %}
+        {% if not entry.hideOnDesktop %}
+          {% if entry.cta %}
+            <a href="{{ entry.url | url }}"
+               class="inline lg:block px-2 py-1 text-center bg-black text-lg font-bold rounded text-white transition ease-in-out duration-300 hover:transform hover:-translate-y-1 focus:transform focus:-translate-y-1 selectable">{{ entry.title }}</a>
+          {% else %}
+            <a href="{{ entry.url | url }}" class="nav-link">{{ entry.title }}</a>
+          {% endif %}
+        {% endif %}
+      {%- endfor %}
     </nav>
     {#    nav menu button on md and smaller #}
     <div class="items-center lg:hidden">
@@ -53,8 +63,16 @@
 
     </div>
     <nav class="grid grid-cols-1 gap-4 sm:gap-6 p-6 max-w-lg mx-auto mt-4 sm:mt-16">
-      <a href="/" class="nav-link">Home</a>
-      {% include "components/navlinks.njk" %}
+      {%- for entry in navPages %}
+        {% if not entry.hideOnMobile %}
+          {% if entry.cta %}
+            <a href="{{ entry.url | url }}"
+               class="inline lg:block px-2 py-1 text-center bg-black text-lg font-bold rounded text-white transition ease-in-out duration-300 hover:transform hover:-translate-y-1 focus:transform focus:-translate-y-1 selectable">{{ entry.title }}</a>
+          {% else %}
+            <a href="{{ entry.url | url }}" class="nav-link">{{ entry.title }}</a>
+          {% endif %}
+        {% endif %}
+      {%- endfor %}
     </nav>
   </div>
 </div>

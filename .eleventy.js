@@ -2,7 +2,10 @@ const htmlmin = require("html-minifier");
 const markdownIt = require('markdown-it');
 const mdFigcaption = require("markdown-it-image-figures");
 const { EleventyRenderPlugin } = require("@11ty/eleventy");
+const EleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 const now = String(Date.now());
+
+const SITE_TITLE = "My Website";
 
 let figoptions = {
   figcaption: true,
@@ -12,6 +15,7 @@ const mdLib = markdownIt({}).use(mdFigcaption, figoptions);
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(EleventyRenderPlugin);
+  eleventyConfig.addPlugin(EleventyNavigationPlugin);
   eleventyConfig.setUseGitIgnore(false);
 
   eleventyConfig.addWatchTarget("./styles/tailwind.config.js");
@@ -50,6 +54,13 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("sortByIndex", (value) => {
     value.sort((a, b) => a.data.index - b.data.index)
     return value;
+  })
+  eleventyConfig.addFilter("appendSiteTitle", (value) => {
+    if (value.includes(SITE_TITLE)) {
+      return value;
+    } else {
+      return `${value} | ${SITE_TITLE}`;
+    }
   })
 
   eleventyConfig.setLibrary("md", mdLib);
