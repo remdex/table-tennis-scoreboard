@@ -2,8 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Sports World';
+    src: url('/assets/fonts/Sports World-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Seven Segment';
+    src: url('/assets/fonts/Seven Segment.woff');
+}
+
+.font-sports {
+    font-family: 'Sports World', sans-serif;
+}
+
+.font-seven {
+    font-family: 'Seven Segment', serif;
+}
+
 .selectable:focus {
-    @apply ring-2 ring-black ring-offset-white ring-offset-2 outline-none rounded;
+    @apply ring-4 ring-white ring-offset-blue-700 ring-offset-2 outline-none rounded-none;
 }
 
 .nav-link {

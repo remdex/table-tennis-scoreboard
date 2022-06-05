@@ -1,21 +1,12 @@
 const htmlmin = require("html-minifier");
-const markdownIt = require('markdown-it');
-const mdFigcaption = require("markdown-it-image-figures");
 const { EleventyRenderPlugin } = require("@11ty/eleventy");
-const EleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 const now = String(Date.now());
 
-const SITE_TITLE = "My Website";
+const SITE_TITLE = "Table Tennis Scoreboard";
 
-let figoptions = {
-  figcaption: true,
-};
-
-const mdLib = markdownIt({}).use(mdFigcaption, figoptions);
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(EleventyRenderPlugin);
-  eleventyConfig.addPlugin(EleventyNavigationPlugin);
   eleventyConfig.setUseGitIgnore(false);
 
   eleventyConfig.addWatchTarget("./styles/tailwind.config.js");
@@ -47,14 +38,6 @@ module.exports = function (eleventyConfig) {
     "./node_modules/alpinejs/dist/cdn.js": "./js/alpine.js",
   });
 
-  eleventyConfig.addNunjucksFilter("niceDate", (value) => {
-    return new Date(value).toLocaleString("en-US", { month: "long", day: "numeric", year: "numeric" });
-  });
-
-  eleventyConfig.addFilter("sortByIndex", (value) => {
-    value.sort((a, b) => a.data.index - b.data.index)
-    return value;
-  })
   eleventyConfig.addFilter("appendSiteTitle", (value) => {
     if (value.includes(SITE_TITLE)) {
       return value;
@@ -62,8 +45,6 @@ module.exports = function (eleventyConfig) {
       return `${value} | ${SITE_TITLE}`;
     }
   })
-
-  eleventyConfig.setLibrary("md", mdLib);
 
   return {
     dir: {

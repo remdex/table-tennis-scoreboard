@@ -1,14 +1,14 @@
 ---
-title: My Website
-description: This is a website
+title: Scoreboard
+description: Scoreboard for Table Tennis/Ping-Pong
 layout: layouts/main.njk
-eleventyNavigation:
-  key: Home
-  order: 0
-  hideOnDesktop: true
 ---
+{% include "components/states/game.njk" %}
+{% include "components/states/setup.njk" %}
+{% include "components/states/gameover.njk" %}
+{% include "components/states/matchover.njk" %}
 
-<div class="max-w-3xl mx-auto px-4">
-  <h1 class="font-bold text-4xl">This is a website</h1>
-  <p>We will need to give it some content</p>
-</div>
+<script src="/assets/game.js"></script>
+<script>
+  {#  TODO: figure out how to move to file. #}
+</script>

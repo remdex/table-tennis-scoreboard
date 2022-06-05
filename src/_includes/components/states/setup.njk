@@ -1,0 +1,83 @@
+<main class="max-w-4xl h-screen mx-auto px-4 mt-8 text-black" x-data  x-show="$store.state == 'setup'">
+  <header class="w-full flex justify-center text-center">
+    <h1 class="text-4xl font-bold font-sports">
+      Setup Your Match
+    </h1>
+  </header>
+  <form action="#" class="grid grid-cols-1 md:grid-cols-2 mt-8">
+    <div class="flex-col flex px-4 md:px-8">
+      <label for="player1_name" class="font-sports tracking-wider text-black">Player 1 Name</label>
+      <input type="text" id="player1_name" class="font-mono uppercase border-black border-2 bg-white px-4 py-2 focus:outline-none focus:border-4" x-data x-model="$store.match.player1.name">
+    </div>
+    <div class="flex-col flex px-4 md:px-8">
+      <label for="player2_name" class="font-sports tracking-wider text-black">Player 2 Name</label>
+      <input type="text" id="player2_name" class="font-mono uppercase border-black border-2 bg-white px-4 py-2 focus:outline-none focus:border-4" x-data x-model="$store.match.player2.name">
+    </div>
+  </form>
+  <section class="px-4 md:px-8 mt-4">
+    <h4 class="text-2xl font-bold font-sports mb-2">Scoring Keys</h4>
+    <p class="font-mono font-bold">You can use this app with some sort of remote control (bluetooth
+      presentation remote works well). Use the space below to configure the keys that score for
+      each player.
+    </p>
+  </section>
+  <section class="grid grid-cols-1 md:grid-cols-2 mt-4">
+    <div class="flex-col flex px-4 md:px-8 w-full space-y-2">
+      <h6 class="font-sports tracking-wider text-black text-left">Player 1 Key</h6>
+      <div class="flex w-full justify-start">
+        <div class="bg-gray-200 border-black border-2 w-32 text-center" x-text="$store.config.recording === 'player1' ? 'Recording...' : $store.config.player1Key"></div>
+      </div>
+      <div class="flex w-full justify-start">
+        <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+                x-data
+                @click="$store.config.recordPlayer1Key()"
+                title="Record the Key that gives player 1 a point"
+        >Record Key</button>
+      </div>
+    </div>
+    <div class="flex-col flex px-4 md:px-8 align-center justify-center w-full space-y-2">
+      <h6 class="font-sports tracking-wider text-black text-left">Player 2 Key</h6>
+      <div class="flex w-full justify-start">
+        <div class="font-mono bg-gray-200 border-black border-2 w-32 text-center" x-text="$store.config.recording === 'player2' ? 'Recording...' : $store.config.player2Key"></div>
+      </div>
+      <div class="flex w-full justify-start">
+        <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+                x-data
+                @click="$store.config.recordPlayer2Key()"
+                title="Record the Key that gives player 1 a point"
+        >Record Key</button>
+      </div>
+    </div>
+
+  </section>
+  <section class="flex my-4 px-8">
+    <div class="flex-col">
+      <label for="match_length" class="text-2xl font-sports font-bold mb-2">Match Length</label>
+      <p class="font-mono font-bold">Set the number of games in a match. Must be odd. Usually five or seven.</p>
+      <div class="mt-4 flex">
+        <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black mr-2 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+                x-data
+                @click="$store.config.fewerGames()"
+                title="Reduce the number of games in a match"
+        >Fewer Games</button>
+        <span class="bg-white border-black border-2 focus-within:border-4 px-4 py-2">
+          <input type="number" id="match_length" class="font-mono uppercase focus:outline-none w-12" x-data x-model="$store.config.matchLength" @blur="$store.config.validateMatchLength()" step="2" min="1">
+          <span class="text-gray-800 italic font-mono uppercase" x-data @click="document.getElementById('match_length').focus();">games per match</span>
+        </span>
+        <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black ml-2 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+                x-data
+                @click="$store.config.moreGames()"
+                title="Increase the number of games in a match"
+        >More Games</button>
+      </div>
+    </div>
+
+  </section>
+  <section class="mx-auto px-8">
+    <button class="font-mono text-2xl uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black px-8 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+            x-data
+            @click="$store.match.saveNames(); $store.state = 'game'"
+            title="Exit setup menu"
+    >Done</button>
+  </section>
+</main>

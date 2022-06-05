@@ -1,0 +1,17 @@
+{% import "macros/player_score.njk" as player_score %}
+
+<div class="max-w-4xl mx-auto px-4 mt-8 h-screen text-white" x-data x-show="$store.state == 'game'">
+  <main class="grid grid-cols-2">
+    {{ player_score.score('player1') }}
+    {{ player_score.score('player2') }}
+  </main>
+  <div id="config" class="absolute bottom-0 right-0 mr-4 mb-4">
+    <button class="font-mono uppercase border px-4 py-2 font-bold  bg-white text-black border-t-1 border-l-1 border-b-4 border-r-4  border-black font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+            x-data
+            @click="$store.state = 'setup'"
+            title="Configure Match Settings"
+    >
+      Setup
+    </button>
+  </div>
+</div>

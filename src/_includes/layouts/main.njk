@@ -3,7 +3,10 @@
 <head>
   {% include "components/head.njk" %}
 </head>
-<body class="">
+<body class="h-screen"
+      x-data
+      :class="{'bg-blue-700': $store.state == 'game', 'bg-yellow-500': $store.state == 'setup', 'bg-green-700': $store.state == 'gameover' || $store.state == 'matchover'}"
+>
 <a
   tabindex="0"
   href="#main-content"
@@ -12,7 +15,7 @@
 >
   Skip to Content
 </a>
-{% include "components/navbar.njk" %}
+{# <div class="flex justify-center py-4 px-2">{% include "components/sitetitle.njk" %}</div> #}
 {{ content | safe }}
 {% include "components/footer.njk" %}
 
