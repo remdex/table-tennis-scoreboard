@@ -21,8 +21,8 @@
       each player.
     </p>
   </section>
-  <section class="grid grid-cols-1 md:grid-cols-2 mt-4">
-    <div class="flex-col flex px-4 md:px-8 w-full space-y-2">
+  <section class="flex space-x-6 px-4 my-4">
+    <div class="flex-col flex px-4 md:px-8 space-y-2">
       <h6 class="font-sports tracking-wider text-black text-left">Player 1 Key</h6>
       <div class="flex w-full justify-start">
         <div class="bg-gray-200 border-black border-2 w-32 text-center" x-text="$store.config.recording === 'player1' ? 'Recording...' : $store.config.player1Key"></div>
@@ -35,7 +35,7 @@
         >Record Key</button>
       </div>
     </div>
-    <div class="flex-col flex px-4 md:px-8 align-center justify-center w-full space-y-2">
+    <div class="flex-col flex px-4 md:px-8 space-y-2">
       <h6 class="font-sports tracking-wider text-black text-left">Player 2 Key</h6>
       <div class="flex w-full justify-start">
         <div class="font-mono bg-gray-200 border-black border-2 w-32 text-center" x-text="$store.config.recording === 'player2' ? 'Recording...' : $store.config.player2Key"></div>
@@ -73,11 +73,16 @@
     </div>
 
   </section>
-  <section class="mx-auto px-8">
-    <button class="font-mono text-2xl uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black px-8 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+  <section class="mx-auto px-8 flex space-x-4">
+    <button class="font-mono text-2xl uppercase bg-green-600 text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black px-8 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
             x-data
             @click="$store.match.saveNames(); $store.state = 'game'"
             title="Exit setup menu"
     >Done</button>
+    <button class="font-mono text-2xl uppercase bg-red-600 text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black px-8 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+            x-data
+            @click="$store.config.reset(); $store.match.resetConfig()"
+            title="Reset to Defaults"
+    >Reset</button>
   </section>
 </main>

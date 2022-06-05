@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 document.addEventListener("alpine:init", () => {
   document.addEventListener("keyup", event => {
     if (Alpine.store("state") === "matchover") {
@@ -20,9 +22,9 @@ document.addEventListener("alpine:init", () => {
 
   Alpine.store("config", {
     init() {
-      this.matchLength = localStorage.getItem('config.matchLength') || 5;
-      this.player1Key = localStorage.getItem('config.player1Key') || "ArrowLeft";
-      this.player2Key = localStorage.getItem('config.player2Key') || "ArrowRight";
+      this.matchLength = localStorage.getItem("config.matchLength") || 5;
+      this.player1Key = localStorage.getItem("config.player1Key") || "ArrowLeft";
+      this.player2Key = localStorage.getItem("config.player2Key") || "ArrowRight";
     },
 
     matchLength: 5,
@@ -53,10 +55,10 @@ document.addEventListener("alpine:init", () => {
     recordKey(key) {
       if (this.recording === "player1") {
         this.player1Key = key;
-        localStorage.setItem('config.player1Key', key)
+        localStorage.setItem("config.player1Key", key);
       } else if (this.recording === "player2") {
         this.player2Key = key;
-        localStorage.setItem('config.player2Key', key)
+        localStorage.setItem("config.player2Key", key);
       }
       this.mode = "playing";
       this.recording = "";
@@ -81,7 +83,7 @@ document.addEventListener("alpine:init", () => {
       } else if (this.matchLength % 2 === 0) {
         this.matchLength += 1;
       }
-      localStorage.setItem('config.matchLength', this.matchLength);
+      localStorage.setItem("config.matchLength", this.matchLength);
     },
 
     fewerGames() {
@@ -93,12 +95,23 @@ document.addEventListener("alpine:init", () => {
     moreGames() {
       this.matchLength = parseInt(this.matchLength) + 2;
     },
+
+    reset() {
+      this.matchLength = 5;
+      localStorage.setItem('config.matchLength', this.matchLength);
+      this.player1Key = "ArrowLeft";
+      localStorage.setItem('config.player1Key', this.player1Key)
+      this.player2Key = "ArrowRight";
+      localStorage.setItem('config.player2Key', this.player2Key)
+      this.mode = "playing";
+      this.recording = "";
+    },
   });
 
   Alpine.store("match", {
     init() {
-      this.player1.name = localStorage.getItem('match.player1.name') || 'Player 1';
-      this.player2.name = localStorage.getItem('match.player2.name') || 'Player 2';
+      this.player1.name = localStorage.getItem("match.player1.name") || "Player 1";
+      this.player2.name = localStorage.getItem("match.player2.name") || "Player 2";
     },
     player1: {
       name: "Player 1",
@@ -114,8 +127,8 @@ document.addEventListener("alpine:init", () => {
     gameLog: [],
 
     saveNames() {
-      localStorage.setItem('match.player1.name', this.player1.name);
-      localStorage.setItem('match.player2.name', this.player2.name);
+      localStorage.setItem("match.player1.name", this.player1.name);
+      localStorage.setItem("match.player2.name", this.player2.name);
     },
 
     player1Scored() {
@@ -176,10 +189,21 @@ document.addEventListener("alpine:init", () => {
     },
 
     get matchWinnerText() {
-      if (this.lastGame.winner.games < Alpine.store('config').matchLength / 2) {
+      if (this.lastGame.winner.games < Alpine.store("config").matchLength / 2) {
         return "Something Went Wrong";
       }
       return this.lastGame.winner.name + " Wins the match!";
+    },
+
+    resetConfig() {
+      this.player1.name = 'Player 1';
+      this.player2.name = 'Player 2';
+      this.saveNames();
+      this.player1.games = 0;
+      this.player2.games = 0;
+      this.gameLog = [];
+      this.player1.score = 0;
+      this.player2.score = 0;
     }
 
   });
