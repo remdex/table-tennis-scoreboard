@@ -10,45 +10,60 @@ document.addEventListener("alpine:init", () => {
       Alpine.store("match").newGame();
       return;
     }
-    if (Alpine.store("config").mode === "playing") {
-      Alpine.store("config").scoreFromKey(event.key);
-    } else if (Alpine.store("config").mode === "recording") {
+    if (Alpine.store("state") === "game") {
+      Alpine.store("config").scoreFromKey(event);
+      return;
+    }
+    if (Alpine.store("state") === "correction") {
+      Alpine.store("config").correctFromKey(event);
+      return;
+    }
+    if (Alpine.store("config").mode === "recording") {
       Alpine.store("config").recordKey(event.key);
     }
   });
-  // states are "game" "setup" "gameover" and "matchover to show the current game score, a screen for the winner,
+  // states are "game" "setup" "gameover" and "matchover" to show the current game score, a screen for the winner,
   // or  setup data in the store config
   Alpine.store("state", "game");
 
+  // Stores the configuration of the match length and scoring buttons. Also persists to localStorage.
   Alpine.store("config", {
     init() {
       this.matchLength = localStorage.getItem("config.matchLength") || 5;
       this.player1Key = localStorage.getItem("config.player1Key") || "ArrowLeft";
       this.player2Key = localStorage.getItem("config.player2Key") || "ArrowRight";
+      this.scoreCorrectionKey = localStorage.getItem("config.scoreCorrectionKey") || "Tab";
     },
 
     matchLength: 5,
     player1Key: "ArrowLeft",
     player2Key: "ArrowRight",
+    scoreCorrectionKey: "Tab",
     mode: "playing",
     recording: "",
 
-    handleKeys(event) {
-      console.log(Alpine.mode);
-      if (this.mode === "playing") {
-        console.log("playing");
-        this.scoreFromKey(event.key);
-      } else if (this.mode === "recording") {
-        console.log("recording key", event.key);
-        this.recordKey(event.key);
+    correctFromKey(event) {
+      if (event.key === this.player1Key) {
+        Alpine.store("match").player1Correction();
+        event.stopPropagation();
+      } else if (event.key === this.player2Key) {
+        Alpine.store("match").player2Correction();
+        event.stopPropagation();
+      } else {
+        Alpine.store("state", "game");
       }
     },
 
-    scoreFromKey(key) {
-      if (key === this.player1Key) {
+    scoreFromKey(event) {
+      if (event.key === this.player1Key) {
         Alpine.store("match").player1Scored();
-      } else if (key === this.player2Key) {
+        event.stopPropagation();
+      } else if (event.key === this.player2Key) {
         Alpine.store("match").player2Scored();
+        event.stopPropagation();
+      } else if (event.key === this.scoreCorrectionKey) {
+        Alpine.store("state", "correction")
+        event.stopPropagation();
       }
     },
 
@@ -59,6 +74,9 @@ document.addEventListener("alpine:init", () => {
       } else if (this.recording === "player2") {
         this.player2Key = key;
         localStorage.setItem("config.player2Key", key);
+      } else if (this.recording === "correction") {
+        this.scoreCorrectionKey = key;
+        localStorage.setItem("config.scoreCorrectionKey", key);
       }
       this.mode = "playing";
       this.recording = "";
@@ -72,6 +90,11 @@ document.addEventListener("alpine:init", () => {
     recordPlayer2Key() {
       this.mode = "recording";
       this.recording = "player2";
+    },
+
+    recordCorrectionKey() {
+      this.mode = "recording";
+      this.recording = "correction";
     },
 
     // Side effect of saving to localStorage
@@ -98,16 +121,17 @@ document.addEventListener("alpine:init", () => {
 
     reset() {
       this.matchLength = 5;
-      localStorage.setItem('config.matchLength', this.matchLength);
+      localStorage.setItem("config.matchLength", this.matchLength);
       this.player1Key = "ArrowLeft";
-      localStorage.setItem('config.player1Key', this.player1Key)
+      localStorage.setItem("config.player1Key", this.player1Key);
       this.player2Key = "ArrowRight";
-      localStorage.setItem('config.player2Key', this.player2Key)
+      localStorage.setItem("config.player2Key", this.player2Key);
       this.mode = "playing";
       this.recording = "";
     },
   });
 
+  // Models the state of the match between the two players, with current scores, game counts, and a game log.
   Alpine.store("match", {
     init() {
       this.player1.name = localStorage.getItem("match.player1.name") || "Player 1";
@@ -131,6 +155,14 @@ document.addEventListener("alpine:init", () => {
       localStorage.setItem("match.player2.name", this.player2.name);
     },
 
+    player1Correction() {
+      this.player1.score -= 1;
+    },
+
+    player2Correction() {
+      this.player2.score -= 1;
+    },
+
     player1Scored() {
       this.player1.score += 1;
       // play to 11 AND win by more than one point
@@ -138,6 +170,7 @@ document.addEventListener("alpine:init", () => {
         this.recordGame(this.player1);
       }
     },
+
     player2Scored() {
       this.player2.score += 1;
       // play to 11 AND win by more than one point
@@ -196,15 +229,15 @@ document.addEventListener("alpine:init", () => {
     },
 
     resetConfig() {
-      this.player1.name = 'Player 1';
-      this.player2.name = 'Player 2';
+      this.player1.name = "Player 1";
+      this.player2.name = "Player 2";
       this.saveNames();
       this.player1.games = 0;
       this.player2.games = 0;
       this.gameLog = [];
       this.player1.score = 0;
       this.player2.score = 0;
-    }
+    },
 
   });
 });

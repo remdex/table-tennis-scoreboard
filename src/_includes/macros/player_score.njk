@@ -1,6 +1,6 @@
 {% macro score(player) %}
   <div class="flex flex-col font-sports tracking-wider mt-10 {% if player == 'player1' %}border-r-2 border-black{% endif %}">
-    <div class="w-full font-bold text-5xl text-center mb-8">
+    <div class="w-full font-bold text-6xl text-center mb-8">
       <span class="border-b-4 border-black px-8 pb-2 w-auto" x-text="$store.match.{{ player }}.name"></span>
     </div>
     <div class="flex {% if player == 'player2' %}flex-row-reverse{% endif %} mx-4">
@@ -14,11 +14,18 @@
         <div class="text-7xl font-seven" x-text="$store.match.{{ player }}.games"></div>
       </div>
     </div>
-    <div class="col-start-1 col-span-full font-bold text-2xl flex justify-center mt-8">
+    <div class="col-start-1 col-span-full font-bold text-2xl flex justify-center mt-8" x-data x-show="$store.state === 'game'">
       <button class="font-sports uppercase bg-white text-black border-t-1 border-l-1 border-b-4 border-r-4 border-black mx-4 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
               x-text="$store.match.{{ player }}.name + ' Scored'"
               @click="$store.match.{{ player }}Scored()"
               :title="$store.match.{{ player }}.name + ' Scored a point'"
+      ></button>
+    </div>
+    <div class="col-start-1 col-span-full font-bold text-2xl flex justify-center mt-8" x-data x-show="$store.state === 'correction'">
+      <button class="font-sports uppercase bg-white text-black border-t-1 border-l-1 border-b-4 border-r-4 border-black mx-4 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+              x-text="'Subtract point from ' + $store.match.{{ player }}.name"
+              @click="$store.match.{{ player }}Correction()"
+              :title="'Subtract a point from ' + $store.match.{{ player }}.name"
       ></button>
     </div>
   </div>

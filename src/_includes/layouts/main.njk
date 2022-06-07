@@ -5,7 +5,7 @@
 </head>
 <body class="h-screen"
       x-data
-      :class="{'bg-blue-700': $store.state == 'game', 'bg-yellow-500': $store.state == 'setup', 'bg-green-700': $store.state == 'gameover' || $store.state == 'matchover'}"
+      :class="{'bg-blue-700': $store.state == 'game', 'bg-yellow-500': $store.state == 'setup', 'bg-green-700': $store.state == 'gameover' || $store.state == 'matchover', 'bg-red-700': $store.state == 'correction'}"
 >
 <a
   tabindex="0"
