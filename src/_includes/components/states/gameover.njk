@@ -1,11 +1,11 @@
 <div class="max-w-5xl mx-auto px-4 mt-8 mb-96 text-white" x-data x-show="$store.state == 'gameover'">
   <header class="w-full flex justify-center text-center">
-    <h1 class="text-7xl font-bold font-sports tracking-wider" x-data x-text="$store.match.winnerText || 'Error'"></h1>
+    <h1 class="text-7xl font-normal font-sports tracking-wider" x-data x-text="$store.match.winnerText || 'Error'"></h1>
   </header>
   <div class="flex justify-center w-full text-center mt-6">
-    <h4 class="text-4xl font-bold font-sports px-4 border-b-4 border-black pb-2 tracking-wider">Final Score</h4>
+    <h4 class="text-4xl font-normal font-sports px-4 border-b-4 border-black pb-2 tracking-wider">Final Score</h4>
   </div>
-  <section class="flex px-4 max-w-2xl -mt-12 mx-auto justify-center space-x-8">
+  <section class="flex px-4 max-w-2xl -mt-12 mx-auto justify-center space-x-8 font-bold">
     <div class="text-[22rem] font-seven" x-data x-text="$store.match.lastGame.player1score"></div>
     <div class="text-[22rem] font-seven">-</div>
     <div class="text-[22rem] font-seven" x-data x-text="$store.match.lastGame.player2score"></div>

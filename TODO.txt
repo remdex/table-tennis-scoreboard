@@ -1,0 +1,16 @@
+TODO
+
+
+deuce rule
+different screen sizes -- IN PROGRESS
+shareable configs using queries with confirmation dialog to set defaults, use once, or use defaults
+editable score in correction mode
+reset config confirmation
+logo color on background
+tracking and bold for all uses of sports font
+tests
+even bigger sizes
+one-off config options?
+
+
+exportable matches?

@@ -1,6 +1,6 @@
 {% import "macros/player_score.njk" as player_score %}
 
-<div class="max-w-4xl mx-auto px-4 mt-8 h-screen text-white" x-data x-show="$store.state === 'game' | $store.state === 'correction'">
+<div class="max-w-4xl xl:max-w-7xl mx-auto px-4 mt-8 h-screen text-white" x-data x-show="$store.state === 'game' | $store.state === 'correction'">
   <main class="grid grid-cols-2">
     {{ player_score.score('player1') }}
     {{ player_score.score('player2') }}

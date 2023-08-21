@@ -1,35 +1,40 @@
-<main class="max-w-4xl h-screen mx-auto px-4 mt-8 text-black" x-data x-show="$store.state == 'setup'">
+<main class="max-w-4xl min-h-screen mx-auto px-4 mt-8 text-black" x-data x-show="$store.state == 'setup'">
   <header class="w-full flex justify-center text-center">
-    <h1 class="text-4xl font-bold font-sports">
+    <h1 class="text-4xl font-normal font-sports">
       Setup Your Match
     </h1>
   </header>
   <form action="#" class="grid grid-cols-1 md:grid-cols-2 mt-8">
     <div class="flex-col flex px-4 md:px-8">
-      <label for="player1_name" class="font-sports tracking-wider text-black">Player 1 Name</label>
-      <input type="text"
-             id="player1_name"
-             class="font-mono uppercase border-black border-2 bg-white px-4 py-2 focus:outline-none focus:border-4"
-             x-data
-             x-model="$store.match.player1.name">
+      <label for="player1_name" class="font-sports font-normal tracking-wider text-black">Player 1 Name</label>
+      <div class="border-transparent border-2 focus-within:border-black">
+        <input type="text"
+               id="player1_name"
+               class="font-mono uppercase border-black border-2 bg-white px-4 py-2 focus:outline-none w-full"
+               x-data
+               x-model="$store.match.player1.name">
+       </div>
     </div>
     <div class="flex-col flex px-4 md:px-8">
-      <label for="player2_name" class="font-sports tracking-wider text-black">Player 2 Name</label>
-      <input type="text"
-             id="player2_name"
-             class="font-mono uppercase border-black border-2 bg-white px-4 py-2 focus:outline-none focus:border-4"
-             x-data
-             x-model="$store.match.player2.name">
+      <label for="player2_name" class="font-sports font-normal tracking-wider text-black">Player 2 Name</label>
+      <div class="border-transparent border-2 focus-within:border-black">
+        <input type="text"
+               id="player2_name"
+               class="font-mono uppercase border-black border-2 bg-white px-4 py-2 focus:outline-none w-full"
+               x-data
+               x-model="$store.match.player2.name">
+       </div>
     </div>
+
   </form>
   <section class="px-4 md:px-8 mt-4">
-    <h4 class="text-2xl font-bold font-sports mb-2">Scoring Keys</h4>
+    <h4 class="text-2xl font-normal tracking-wider font-sports mb-2">Scoring Keys</h4>
     <p class="font-mono font-bold">You can use this app with some sort of remote control (bluetooth
       presentation remote works well). Use the space below to configure the keys that score for
       each player.
     </p>
   </section>
-  <section class="flex space-x-6 px-4 my-4">
+  <section class="flex-col sm:flex space-y-2 sm:space-y-0 sm:space-x-6 px-4 my-4">
     <div class="flex-col flex px-4 md:px-8 space-y-2">
       <h6 class="font-sports tracking-wider text-black text-left">Player 1 Key</h6>
       <div class="flex w-full justify-start">
@@ -77,9 +82,9 @@
     </div>
 
   </section>
-  <section class="flex my-4 px-8">
+  <section class="flex my-4 px-4">
     <div class="flex-col">
-      <label for="match_length" class="text-2xl font-sports font-bold mb-2">Winning Score</label>
+      <label for="match_length" class="text-2xl font-sports font-nomral tracking-wider mb-2">Winning Score</label>
       <p class="font-mono font-bold">Minimum winning score for the game (can go higher depending on deuce rule). Default is 11.</p>
       <div class="mt-4 flex">
         <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black mr-2 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
@@ -87,18 +92,20 @@
                 @click="$store.config.winningScore--"
         >Decrease
         </button>
-        <span class="bg-white border-black border-2 focus-within:border-4 px-4 py-2">
-          <input type="number"
-                 id="match_length"
-                 class="font-mono uppercase focus:outline-none w-12"
-                 x-data
-                 x-model="$store.config.winningScore"
-                 step="1"
-                 min="1">
-          <span class="text-gray-800 italic font-mono uppercase"
-                x-data
-                @click="document.getElementById('match_length').focus();">points</span>
-        </span>
+        <div class="border-transparent border-2 focus-within:border-black">
+          <div class="bg-white border-black border-2 px-4 py-2">
+            <input type="number"
+                   id="match_length"
+                   class="font-mono uppercase focus:outline-none w-12"
+                   x-data
+                   x-model="$store.config.winningScore"
+                   step="1"
+                   min="1">
+            <span class="text-gray-800 italic font-mono uppercase"
+                  x-data
+                  @click="document.getElementById('match_length').focus();">points</span>
+          </div>
+        </div>
         <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black ml-2 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
                 x-data
                 @click="$store.config.winningScore++"
@@ -107,9 +114,9 @@
     </div>
 
   </section>
-<section class="flex my-4 px-8">
+<section class="flex my-4 px-4">
     <div class="flex-col">
-      <label for="match_length" class="text-2xl font-sports font-bold mb-2">Match Length</label>
+      <label for="match_length" class="text-2xl font-sports font-normal tracking-wider mb-2">Match Length</label>
       <p class="font-mono font-bold">Set the number of games in a match. Must be odd. Usually five or seven.</p>
       <div class="mt-4 flex">
         <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black mr-2 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
@@ -118,19 +125,21 @@
                 title="Reduce the number of games in a match"
         >Fewer Games
         </button>
-        <span class="bg-white border-black border-2 focus-within:border-4 px-4 py-2">
-          <input type="number"
-                 id="match_length"
-                 class="font-mono uppercase focus:outline-none w-12"
-                 x-data
-                 x-model="$store.config.matchLength"
-                 @blur="$store.config.validateMatchLength()"
-                 step="2"
-                 min="1">
-          <span class="text-gray-800 italic font-mono uppercase"
-                x-data
-                @click="document.getElementById('match_length').focus();">games per match</span>
-        </span>
+        <div class="border-transparent border-2 focus-within:border-black">
+          <div class="bg-white border-black border-2 px-4 py-2">
+            <input type="number"
+                   id="match_length"
+                   class="font-mono uppercase focus:outline-none w-12"
+                   x-data
+                   x-model="$store.config.matchLength"
+                   @blur="$store.config.validateMatchLength()"
+                   step="2"
+                   min="1">
+            <span class="text-gray-800 italic font-mono uppercase"
+                  x-data
+                  @click="document.getElementById('match_length').focus();">games per match</span>
+          </div>
+        </div>
         <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black ml-2 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
                 x-data
                 @click="$store.config.moreGames()"
