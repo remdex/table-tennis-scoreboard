@@ -79,6 +79,36 @@
   </section>
   <section class="flex my-4 px-8">
     <div class="flex-col">
+      <label for="match_length" class="text-2xl font-sports font-bold mb-2">Winning Score</label>
+      <p class="font-mono font-bold">Minimum winning score for the game (can go higher depending on deuce rule). Default is 11.</p>
+      <div class="mt-4 flex">
+        <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black mr-2 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+                x-data
+                @click="$store.config.winningScore--"
+        >Decrease
+        </button>
+        <span class="bg-white border-black border-2 focus-within:border-4 px-4 py-2">
+          <input type="number"
+                 id="match_length"
+                 class="font-mono uppercase focus:outline-none w-12"
+                 x-data
+                 x-model="$store.config.winningScore"
+                 step="1"
+                 min="1">
+          <span class="text-gray-800 italic font-mono uppercase"
+                x-data
+                @click="document.getElementById('match_length').focus();">points</span>
+        </span>
+        <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black ml-2 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+                x-data
+                @click="$store.config.winningScore++"
+        >Increase</button>
+      </div>
+    </div>
+
+  </section>
+<section class="flex my-4 px-8">
+    <div class="flex-col">
       <label for="match_length" class="text-2xl font-sports font-bold mb-2">Match Length</label>
       <p class="font-mono font-bold">Set the number of games in a match. Must be odd. Usually five or seven.</p>
       <div class="mt-4 flex">
@@ -114,7 +144,7 @@
   <section class="mx-auto px-8 flex space-x-4">
     <button class="font-mono text-2xl uppercase bg-green-600 text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black px-8 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
             x-data
-            @click="$store.match.saveNames(); $store.state = 'game'"
+            @click="$store.match.saveNames(); $store.config.saveConfig(); $store.state = 'game'"
             title="Exit setup menu"
     >Done
     </button>

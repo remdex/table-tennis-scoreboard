@@ -33,6 +33,7 @@ document.addEventListener("alpine:init", () => {
       this.player1Key = localStorage.getItem("config.player1Key") || "ArrowLeft";
       this.player2Key = localStorage.getItem("config.player2Key") || "ArrowRight";
       this.scoreCorrectionKey = localStorage.getItem("config.scoreCorrectionKey") || "Tab";
+      this.winningScore = localStorage.getItem("config.winningScore") || 11;
     },
 
     matchLength: 5,
@@ -41,6 +42,7 @@ document.addEventListener("alpine:init", () => {
     scoreCorrectionKey: "Tab",
     mode: "playing",
     recording: "",
+    winningScore: 11,
 
     correctFromKey(event) {
       if (event.key === this.player1Key) {
@@ -106,7 +108,6 @@ document.addEventListener("alpine:init", () => {
       } else if (this.matchLength % 2 === 0) {
         this.matchLength += 1;
       }
-      localStorage.setItem("config.matchLength", this.matchLength);
     },
 
     fewerGames() {
@@ -128,7 +129,13 @@ document.addEventListener("alpine:init", () => {
       localStorage.setItem("config.player2Key", this.player2Key);
       this.mode = "playing";
       this.recording = "";
+      this.winningScore = 11;
     },
+    
+    saveConfig() {
+      localStorage.setItem("config.matchLength", this.matchLength);
+      localStorage.setItem("config.winningScore", this.winningScore);
+    }
   });
 
   // Models the state of the match between the two players, with current scores, game counts, and a game log.
@@ -166,7 +173,7 @@ document.addEventListener("alpine:init", () => {
     player1Scored() {
       this.player1.score += 1;
       // play to 11 AND win by more than one point
-      if (this.player1.score > 10 && this.player1.score > this.player2.score + 1) {
+      if (this.player1.score >= Alpine.store("config").winningScore && this.player1.score > this.player2.score + 1) {
         this.recordGame(this.player1);
       }
     },
@@ -174,7 +181,7 @@ document.addEventListener("alpine:init", () => {
     player2Scored() {
       this.player2.score += 1;
       // play to 11 AND win by more than one point
-      if (this.player2.score > 10 && this.player2.score > this.player1.score + 1) {
+      if (this.player2.score >= Alpine.store("config").winningScore && this.player2.score > this.player1.score + 1) {
         this.recordGame(this.player2);
       }
     },
@@ -201,7 +208,7 @@ document.addEventListener("alpine:init", () => {
     },
 
     recordGame(winner) {
-      this.gameLog.push({ winner, player1score: this.player1.score, player2score: this.player2.score });
+      this.gameLog.push({ winner, player1score: this.player1.score, player2score: this.player2.score});
       winner.games += 1;
       if (winner.games > Alpine.store("config").matchLength / 2) {
         this.showMatchWinner();
@@ -211,6 +218,9 @@ document.addEventListener("alpine:init", () => {
     },
 
     get lastGame() {
+      if (this.gameLog.length === 0) {
+        return { winner: 'Error', player1Score: 'Error', player2Score: 'Error' };
+      }
       return this.gameLog[(this.gameLog.length - 1)];
     },
 
