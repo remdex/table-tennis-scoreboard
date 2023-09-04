@@ -1,31 +1,30 @@
 {% macro score(player) %}
   <div class="flex flex-col font-sports tracking-wider mt-10 {% if player == 'player1' %}border-r-2 border-black{% endif %}">
     <div class="w-full font-medium text-3xl md:text-5xl xl:text-7xl text-center mb-8 tracking-wider">
-      <span class="border-b-4 border-black px-8 pb-2 w-auto" x-text="$store.match.{{ player }}.name"></span>
+      <span class="border-b-4 border-black px-8 pb-2 w-auto" x-text="$store.match.{{ player }}.name" data-test="{{player}}-name"></span>
     </div>
     <div class="flex {% if player == 'player2' %}flex-row-reverse{% endif %} mx-4">
       <div class="w-3/5 text-center font-medium flex-col items-center">
         <div class="text-2xl md:text-5xl">Score</div>
-        <div class="text-[15rem] md:text-[21rem] font-seven font-bold leading-none" x-text="$store.match.{{ player }}.score"></div>
-
+        <div class="text-[15rem] md:text-[21rem] font-seven font-bold leading-none" x-text="$store.match.{{ player }}.score" data-test="{{player}}-score"></div>
       </div>
       <div class="w-2/5 text-center flex-col items-center">
         <div class="text-xl md:text-3xl tracking-wider font-medium">Games</div>
-        <div class="text-5xl md:text-7xl font-seven font-bold leading-none" x-text="$store.match.{{ player }}.games"></div>
+        <div class="text-5xl md:text-7xl font-seven font-bold leading-none" x-text="$store.match.{{ player }}.games" data-test="{{player}}-games"></div>
       </div>
     </div>
     <div class="col-start-1 col-span-full font-medium tracking-wider text-lg md:text-2xl flex justify-center mt-8" x-data x-show="$store.state === 'game'">
       <button class="font-sports uppercase bg-white text-black border-t-1 border-l-1 border-b-4 border-r-4 border-black mx-4 px-4 py-2 active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
               x-text="$store.match.{{ player }}.name + ' Scored'"
               @click="$store.match.{{ player }}Scored()"
-              :title="$store.match.{{ player }}.name + ' Scored a point'"
+              data-test="{{player}}-button"
       ></button>
     </div>
     <div class="col-start-1 col-span-full font-medium tracking-wider text-2xl flex justify-center mt-8" x-data x-show="$store.state === 'correction'">
       <button class="font-sports uppercase bg-white text-black border-t-1 border-l-1 border-b-4 border-r-4 border-black mx-4 px-4 py-2 active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
+              data-test="{{player}}-correction-button"
               x-text="'Subtract point from ' + $store.match.{{ player }}.name"
               @click="$store.match.{{ player }}Correction()"
-              :title="'Subtract a point from ' + $store.match.{{ player }}.name"
       ></button>
     </div>
   </div>

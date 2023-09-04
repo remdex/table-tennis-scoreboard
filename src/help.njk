@@ -1,0 +1,106 @@
+---
+title: Help | TT Scoreboard
+description: Help for Table Tennis Scoreboard
+layout: layouts/help.njk
+---
+<main class="container mx-auto px-4 mt-8 text-gray-200 flex-1">
+  <header class="w-full flex justify-center text-center">
+    <h1 class="text-4xl font-normal font-sports text-white">
+      Using the Scoreboard
+    </h1>
+  </header>
+  <div class="flex flex-col gap-2 mt-8 divide-y-2 border-b-2 border-black divide-black">
+    <p>Hopefully the scoreboard is pretty intuitive to use, but here's a little
+      guidance just in case! If you have any problems or questions or feature 
+      suggestions not covered below, feel free 
+    <a href="//rickhenry.dev/contact" class="underline hover:underline-offset-2" target="_blank" rel="noopener noreferrer">
+      send me a message</a> on my main website. I'd also love to hear how people
+      are using my little site! You can also 
+      <a href="//github.com/rickh94/table-tennis-scoreboard" class="underline hover:underline-offset-2" target="_blank" rel="noopener noreferrer">
+      view and star the code</a> on GitHub if you're interested.
+    <div class="py-2 space-y-2">
+      <h2 class="text-3xl font-bold text-white">
+        Basics
+      </h2>
+      <p>
+        <strong class="font-bold text-lg text-white">Basic Gameplay</strong>
+        By default, you are configured for a five-game match, played to 11 
+        points, and you are required to win by two. Just <strong class="font-bold text-white">click the button for
+        whichever player scored</strong> until one player wins. This will bring up 
+        the <strong class="font-bold text-white">win screen</strong>; just click the button
+        to start the next game. Once one player wins three games, the match will end and you can 
+        start a new match. The game and match end screens will change the 
+        <span class="bg-green-700 rounded px-1 text-white">background to green</span> and display a message about the winner.
+      </p>
+      <p>
+        <strong class="font-bold text-lg text-white">Keybinds</strong>
+      If you don't have the luxury of a separate scorer, each player
+        has a unique keybind that works just like the scoring buttons. 
+        You can use a <strong class="font-bold text-white">wireless keyboard or presentation clicker</strong>
+        for much faster scoring. 
+        I built this so I could keep a wireless presentation clicker in my 
+        pocket and keep score on my iPad on a nearby table. By default, it uses
+        the <em class="italic text-white">Left and Right Arrow Keys</em> for scoring and
+        <em class="italic text-white">Tab</em> for making corrections. More on that below
+      <p>
+        <strong class="font-bold text-lg text-white">Corrections</strong>
+        In case you click the wrong button or push the wrong key, there is a quick
+        way to make scoring corrections. Simply press the 
+        <strong class="font-bold text-white uppercase font-mono">Correction</strong> button or 
+        bound key to enter correction mode. <em class="italic text-white">Now the scoring buttons/keys will subtract
+        a point instead of adding a point</em>. Then simply click the correction 
+        button/key to go back to normal game mode. Try not to mess up the final
+        point since the game ends instantly. You can tell you're in setup mode
+        because it will change the
+        <span class="bg-red-700 px-1 rounded text-white">background to red.</span>
+      </p>
+    </div>
+    <div class="py-2 space-y-2">
+      <h2 class="text-3xl font-bold text-white">
+        Customization
+      </h2>
+      <p>You can change a variety of settings about the scoreboard in game by
+      clicking the <strong class="font-bold text-white font-mono uppercase">Setup</strong> button 
+      at the bottom. Setup mode has a 
+      <span class="bg-yellow-500 px-1 rounded text-black">yellow background.</span>
+      Anything you set will be saved to your browser for the next time you use 
+      the scoreboard. You can click the <strong class="font-bold text-white font-mono uppercase">Reset</strong>
+      button to go back to the defaults. Click the <strong class="font-bold text-white font-mono uppercase">Done</strong>
+      button to go back to 
+      <span class="text-white px-1 rounded bg-blue-700">game mode.</span> Your 
+      settings will save automatically.
+      <p>
+        <strong class="font-bold text-lg text-white">Player Names</strong>
+        You can change the names displayed for each player. Just type the new
+        names into the boxes on the setup page.
+      </p>
+      <p>
+        <strong class="font-bold text-lg text-white">Changing Keybinds</strong>
+        The keybinds are set to what I think are reasonable defaults based on my
+        setup, but yours may be different. Click the 
+        <strong class="font-bold text-white font-mono uppercase">Record Key</strong>
+        button under the keybind that you want to change, then press the key you
+        want to bind. It should show up in the box above, showing that the key
+        was successfully bound.
+      </p>
+      <p>
+        <strong class="font-bold text-lg text-white">Game/Match Settings</strong>
+        Below the keybinding section, you can also change the 
+        <strong class="font-bold text-white">number of points</strong> required 
+        to win a game and the <strong class="font-bold text-white">number 
+        of games</strong> in a match. Note that this is the maximum number of 
+        games, not the number of games required to win. If you set it to five, 
+        then one player must win three games. This number cannot be even as
+        that would allow a tie.</p>
+    </div>
+<div class="py-2 space-y-2">
+      <h2 class="text-3xl font-bold text-white">
+        Questions and Comments
+      </h2>
+      <p>As I mentioned above, if you need anything <a href="//rickhenry.dev/contact" class="underline hover:underline-offset-2" target="_blank" rel="noopener noreferrer">
+        send me a message</a> on my main website. This page opened in a new tab,
+        so you can just close it to get back to your game. Have fun!
+      </p>
+      </div>
+  </div>
+</main>

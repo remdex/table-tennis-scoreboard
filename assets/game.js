@@ -1,4 +1,5 @@
 // noinspection JSUnusedGlobalSymbols
+// TODO: make sure the keybindings are exclusive
 
 document.addEventListener("alpine:init", () => {
   document.addEventListener("keyup", event => {
@@ -163,11 +164,15 @@ document.addEventListener("alpine:init", () => {
     },
 
     player1Correction() {
-      this.player1.score -= 1;
+      if (this.player1.score > 0) {
+        this.player1.score -= 1;
+      }
     },
 
     player2Correction() {
-      this.player2.score -= 1;
+      if (this.player2.score > 0) {
+        this.player2.score -= 1;
+      }
     },
 
     player1Scored() {

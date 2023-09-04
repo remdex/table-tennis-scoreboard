@@ -1,6 +1,6 @@
-<div class="max-w-5xl mx-auto px-4 mt-8 mb-96 text-white" x-data x-show="$store.state == 'matchover'">
+<div class="max-w-5xl mx-auto px-4 mt-8 mb-96 text-white" x-data x-show="$store.state == 'matchover'" data-test="match-end-screen">
   <header class="w-full flex justify-center text-center">
-    <h1 class="text-7xl font-normal font-sports tracking-wider" x-data x-text="$store.match.matchWinnerText"></h1>
+    <h1 class="text-7xl font-normal font-sports tracking-wider" x-data x-text="$store.match.matchWinnerText" data-test="winner-text"></h1>
   </header>
   <div class="flex justify-center w-full text-center mt-6">
     <h4 class="text-4xl font-normal font-sports px-4 border-b-4 border-black pb-2 tracking-wider">Final Standing</h4>
@@ -20,5 +20,4 @@
             title="New Match"
     >New Match</button>
   </section>
-
 </div>
