@@ -7,8 +7,7 @@
   # https://devenv.sh/packages/
   packages = [
     pkgs.git
-    pkgs.nodejs
-    pkgs.nodePackages.pnpm
+    pkgs.bun
     pkgs.netlify-cli
   ];
 
@@ -22,6 +21,7 @@
   scripts.clean.exec = "rm -rf _site _tmp";
   scripts.dev.exec = "pnpm start";
   scripts.build.exec = "rm -rf _site _tmp; pnpm build";
+  scripts.deploy.exec = "echo 'Use draft to deploy a draft and publish to deploy to production'";
   scripts.draft.exec = "rm -rf _site _tmp; pnpm build; netlify deploy";
   scripts.publish.exec = "rm -rf _site _tmp; pnpm build; netlify deploy --prod";
 
