@@ -89,7 +89,7 @@
   </section>
   <section class="flex my-4 px-4">
     <div class="flex-col">
-      <label for="match_length" class="text-2xl font-sports font-nomral tracking-wider mb-2">Winning Score</label>
+      <label for="winning_score" class="text-2xl font-sports font-nomral tracking-wider mb-2">Winning Score</label>
       <p class="font-mono font-bold">Minimum winning score for the game (can go higher depending on deuce rule). Default is 11.</p>
       <div class="mt-4 flex">
         <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black mr-2 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
@@ -100,7 +100,7 @@
         <div class="border-transparent border-2 focus-within:border-black">
           <div class="bg-white border-black border-2 px-4 py-2">
             <input type="number"
-                   id="match_length"
+                   id="winning_score"
                    class="font-mono uppercase focus:outline-none w-12"
                    x-data
                    x-model="$store.config.winningScore"
@@ -110,7 +110,7 @@
                    >
             <span class="text-gray-800 italic font-mono uppercase"
                   x-data
-                  @click="document.getElementById('match_length').focus();">points</span>
+                  @click="document.getElementById('winning_score').focus();">points</span>
           </div>
         </div>
         <button class="font-mono uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black ml-2 px-4 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
