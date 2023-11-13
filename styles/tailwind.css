@@ -9,7 +9,7 @@
 
 @font-face {
     font-family: 'Seven Segment';
-    src: url('/assets/fonts/Seven Segment.woff');
+    src: url('/assets/fonts/7Segment.woff') format('woff'), url('/assets/fonts/7Segment.ttf') format('truetype');
 }
 
 .font-sports {

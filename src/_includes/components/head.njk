@@ -5,6 +5,11 @@
 <title>{{ title }}</title>
 {% if description %}
   <meta name="description" content="{{ description }}">
+  <meta property="og:description" content="{{ description }}" />
+<meta property="twitter:description" content="{{ description }}" />
+  {% else %}
+  <meta property="og:description" content="Keep score in your table tennis game." />
+<meta property="twitter:description" content="Keep score in your table tennis game." />
 {% endif %}
 <link rel="stylesheet" href="/style.css?v={% version %}">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
@@ -13,4 +18,17 @@
 <link rel="icon"  href="/assets/favicon.ico">
 <link rel="manifest" href="/assets/site.webmanifest">
 <script src="/js/alpine.js?v={% version %}" defer></script>
+<meta property="og:title" content="{{ title }}" />
+<meta property="og:url" content="https://tabletennisscoreboard.com" />
+<meta
+  property="og:image"
+  content="https://og.rickhenry.dev/tts/opengraph-image"
+/>
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{{ title }}" />
+<meta
+  name="twitter:image"
+  content="https://og.rickhenry.dev/tts/opengraph-image"
+/>
 
