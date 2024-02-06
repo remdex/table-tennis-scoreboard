@@ -3,35 +3,35 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Sports World';
-    src: url('/assets/fonts/Sports World-Regular.ttf');
+  font-family: "Sports World";
+  src: url("/assets/fonts/Sports World-Regular.ttf");
 }
 
 @font-face {
-    font-family: 'Seven Segment';
-    src: url('/assets/fonts/7Segment.woff') format('woff'), url('/assets/fonts/7Segment.ttf') format('truetype');
+  font-family: "Seven Segment";
+  src: url("/assets/fonts/Seven Segment.ttf") format("truetype");
 }
 
 .font-sports {
-    font-family: 'Sports World', sans-serif;
+  font-family: "Sports World", sans-serif;
 }
 
 .font-seven {
-    font-family: 'Seven Segment', serif;
+  font-family: "Seven Segment", serif;
 }
 
 .selectable:focus {
-    @apply ring-4 ring-white ring-offset-blue-700 ring-offset-2 outline-none rounded-none;
+  @apply ring-4 ring-white ring-offset-blue-700 ring-offset-2 outline-none rounded-none;
 }
 
 .nav-link {
-    @apply font-semibold text-black text-xl cursor-pointer rounded px-2;
+  @apply font-semibold text-black text-xl cursor-pointer rounded px-2;
 }
 
 .nav-link:hover {
-    @apply transform -translate-y-0.5 ease-in-out duration-300;
+  @apply transform -translate-y-0.5 ease-in-out duration-300;
 }
 
 .nav-link:focus {
-    @apply transform -translate-y-0.5 ease-in-out duration-300 ring-2 ring-black ring-offset-white ring-offset-2 outline-none;
+  @apply transform -translate-y-0.5 ease-in-out duration-300 ring-2 ring-black ring-offset-white ring-offset-2 outline-none;
 }
