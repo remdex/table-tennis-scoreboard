@@ -4,29 +4,33 @@ describe("match", () => {
   });
 
   it("starts new game from win screen on click and records win (player1 win)", () => {
-    cy.setPlayerScore("player2", 8);
-    cy.setPlayerScore("player1", 11);
+    // player 1 starts on the left, score should be on the left
+    cy.setPlayerScore("right", 8);
+    cy.setPlayerScore("left", 11);
     cy.get('[data-test="winner-text"]').contains("Player 1");
-    cy.get('[data-test="player1-score"]').contains("11");
-    cy.get('[data-test="player2-score"]').contains("8");
+    cy.get('[data-test="left-score"]').contains("11");
+    cy.get('[data-test="right-score"]').contains("8");
     cy.get('[data-test="new-game-button"]').click();
-    cy.get('[data-test="player1-games"]').contains("1");
-    cy.get('[data-test="player2-games"]').contains("0");
-    cy.get('[data-test="player1-score"]').contains("0");
-    cy.get('[data-test="player2-score"]').contains("0");
+    // default config this will reverse
+    cy.get('[data-test="right-games"]').contains("1");
+    cy.get('[data-test="left-games"]').contains("0");
+    cy.get('[data-test="right-score"]').contains("0");
+    cy.get('[data-test="left-score"]').contains("0");
   });
 
   it("starts new game from win screen on click and records win (player2 win)", () => {
-    cy.setPlayerScore("player1", 4);
-    cy.setPlayerScore("player2", 11);
+    // player 2 starts on the right
+    cy.setPlayerScore("left", 4);
+    cy.setPlayerScore("right", 11);
     cy.get('[data-test="winner-text"]').contains("Player 2");
-    cy.get('[data-test="player2-score"]').contains("11");
-    cy.get('[data-test="player1-score"]').contains("4");
+    cy.get('[data-test="right-score"]').contains("11");
+    cy.get('[data-test="left-score"]').contains("4");
     cy.get('[data-test="new-game-button"]').click();
-    cy.get('[data-test="player2-games"]').contains("1");
-    cy.get('[data-test="player1-games"]').contains("0");
-    cy.get('[data-test="player1-score"]').contains("0");
-    cy.get('[data-test="player2-score"]').contains("0");
+    // default configuration will reverse
+    cy.get('[data-test="left-games"]').contains("1");
+    cy.get('[data-test="right-games"]').contains("0");
+    cy.get('[data-test="left-score"]').contains("0");
+    cy.get('[data-test="right-score"]').contains("0");
   });
 
   it("Plays entire match, player1 wins", () => {
@@ -82,4 +86,3 @@ describe("match", () => {
     cy.get('[data-test="winner-text"]').contains("Player 2");
   });
 });
-

@@ -1,5 +1,8 @@
 TODO
 
+change from setup button to menu with setup, swap ends,
+rewrite in astro/next/preact?
+
 
 deuce rule
 different screen sizes -- IN PROGRESS

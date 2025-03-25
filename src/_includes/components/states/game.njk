@@ -1,47 +1,38 @@
 {% import "macros/player_score.njk" as player_score %}
-
-<div class="max-w-4xl xl:max-w-7xl mx-auto px-4 mt-8 h-screen text-white" x-data x-show="$store.state === 'game' | $store.state === 'correction'">
-  <main class="grid grid-cols-2">
-    {{ player_score.score('player1') }}
-    {{ player_score.score('player2') }}
-  </main>
-  <div id="correction" class="absolute bottom-0 left-0 ml-4 mb-4">
-    <button class="font-mono uppercase border px-4 py-2 bg-white text-black border-t-1 border-l-1 border-b-4 border-r-4  border-black font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
-            data-test="correction-button"
-            x-data
-            @click="$store.state = 'correction'"
-            title="Correct a scoring mistake"
-            x-show="$store.state === 'game'"
-    >
-      Correction
-    </button>
-    <button class="font-mono uppercase border px-4 py-2 bg-white text-black border-t-1 border-l-1 border-b-4 border-r-4  border-black font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
-            x-data
-            @click="$store.state = 'game'"
-            title="Correct a scoring mistake"
-            x-show="$store.state === 'correction'"
-            data-test="end-correction-button"
-    >
-      Correction Complete
-    </button>
-  </div>
-  <div id="help" class="absolute bottom-0 right-1/2 transform translate-x-1/2 mb-4">
-    <a class="block font-mono uppercase border px-4 py-2 bg-white text-black border-t-1 border-l-1 border-b-4 border-r-4  border-black font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
-        href="/help"
-        target="_blank"
-        data-test="help-button"
-    >
-      Help
-    </a>
-  </div>
-  <div id="config" class="absolute bottom-0 right-0 mr-4 mb-4">
-    <button class="font-mono uppercase border px-4 py-2 bg-white text-black border-t-1 border-l-1 border-b-4 border-r-4  border-black font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
-            x-data
-            @click="$store.state = 'setup'"
-            title="Configure Match Settings"
-            data-test="setup-button"
-    >
-      Setup
-    </button>
-  </div>
+<div class="px-4 mx-auto mt-8 max-w-4xl h-screen text-white xl:max-w-7xl"
+     x-data
+     x-show="$store.state === 'game' | $store.state === 'correction'">
+    <span class="hidden" x-data data-reversed="$store.match.reversed"></span>
+    <main class="grid grid-cols-2">
+        {{ player_score.score("left") }}
+        {{ player_score.score("right") }}
+    </main>
+    <div id="correction" class="absolute bottom-0 left-0 mb-4 ml-4">
+        <button class="py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t-1 border-l-1 selectable"
+                data-test="correction-button"
+                x-data
+                @click="$store.state = 'correction'"
+                title="Correct a scoring mistake"
+                x-show="$store.state === 'game'">Correction</button>
+        <button class="py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t-1 border-l-1 selectable"
+                x-data
+                @click="$store.state = 'game'"
+                title="Correct a scoring mistake"
+                x-show="$store.state === 'correction'"
+                data-test="end-correction-button">Correction Complete</button>
+    </div>
+    <div id="help"
+         class="absolute bottom-0 right-1/2 mb-4 transform translate-x-1/2">
+        <a class="block py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t-1 border-l-1 selectable"
+           href="/help"
+           target="_blank"
+           data-test="help-button">Help</a>
+    </div>
+    <div id="config" class="absolute right-0 bottom-0 mr-4 mb-4">
+        <button class="py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t-1 border-l-1 selectable"
+                x-data
+                @click="$store.state = 'setup'"
+                title="Configure Match Settings"
+                data-test="setup-button">Setup</button>
+    </div>
 </div>

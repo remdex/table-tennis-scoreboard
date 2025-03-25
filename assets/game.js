@@ -2,7 +2,7 @@
 // TODO: make sure the keybindings are exclusive
 
 document.addEventListener("alpine:init", () => {
-  document.addEventListener("keyup", event => {
+  document.addEventListener("keyup", (event) => {
     if (Alpine.store("state") === "matchover") {
       Alpine.store("match").newMatch();
       return;
@@ -31,10 +31,15 @@ document.addEventListener("alpine:init", () => {
   Alpine.store("config", {
     init() {
       this.matchLength = localStorage.getItem("config.matchLength") || 5;
-      this.player1Key = localStorage.getItem("config.player1Key") || "ArrowLeft";
-      this.player2Key = localStorage.getItem("config.player2Key") || "ArrowRight";
-      this.scoreCorrectionKey = localStorage.getItem("config.scoreCorrectionKey") || "Tab";
+      this.player1Key =
+        localStorage.getItem("config.player1Key") || "ArrowLeft";
+      this.player2Key =
+        localStorage.getItem("config.player2Key") || "ArrowRight";
+      this.scoreCorrectionKey =
+        localStorage.getItem("config.scoreCorrectionKey") || "Tab";
       this.winningScore = localStorage.getItem("config.winningScore") || 11;
+      this.switchSides =
+        Boolean(localStorage.getItem("config.config.switchSides")) || true;
     },
 
     matchLength: 5,
@@ -44,6 +49,7 @@ document.addEventListener("alpine:init", () => {
     mode: "playing",
     recording: "",
     winningScore: 11,
+    switchSides: true,
 
     correctFromKey(event) {
       if (event.key === this.player1Key) {
@@ -65,7 +71,7 @@ document.addEventListener("alpine:init", () => {
         Alpine.store("match").player2Scored();
         event.stopPropagation();
       } else if (event.key === this.scoreCorrectionKey) {
-        Alpine.store("state", "correction")
+        Alpine.store("state", "correction");
         event.stopPropagation();
       }
     },
@@ -132,18 +138,21 @@ document.addEventListener("alpine:init", () => {
       this.recording = "";
       this.winningScore = 11;
     },
-    
+
     saveConfig() {
       localStorage.setItem("config.matchLength", this.matchLength);
       localStorage.setItem("config.winningScore", this.winningScore);
-    }
+      localStorage.setItem("config.switchSides", this.switchSides);
+    },
   });
 
   // Models the state of the match between the two players, with current scores, game counts, and a game log.
   Alpine.store("match", {
     init() {
-      this.player1.name = localStorage.getItem("match.player1.name") || "Player 1";
-      this.player2.name = localStorage.getItem("match.player2.name") || "Player 2";
+      this.player1.name =
+        localStorage.getItem("match.player1.name") || "Player 1";
+      this.player2.name =
+        localStorage.getItem("match.player2.name") || "Player 2";
     },
     player1: {
       name: "Player 1",
@@ -157,10 +166,19 @@ document.addEventListener("alpine:init", () => {
     },
     // A game is an object with keys winner, player1score, and player2score
     gameLog: [],
+    reversed: false,
 
     saveNames() {
       localStorage.setItem("match.player1.name", this.player1.name);
       localStorage.setItem("match.player2.name", this.player2.name);
+    },
+
+    get leftName() {
+      return this.reversed ? this.player2.name : this.player1.name;
+    },
+
+    get rightName() {
+      return this.reversed ? this.player1.name : this.player2.name;
     },
 
     player1Correction() {
@@ -175,10 +193,61 @@ document.addEventListener("alpine:init", () => {
       }
     },
 
+    leftCorrection() {
+      if (this.reversed) {
+        this.player2Correction();
+      } else {
+        this.player1Correction();
+      }
+    },
+
+    rightCorrection() {
+      if (this.reversed) {
+        this.player1Correction();
+      } else {
+        this.player2Correction();
+      }
+    },
+
+    get leftScore() {
+      return this.reversed ? this.player2.score : this.player1.score;
+    },
+
+    get rightScore() {
+      return this.reversed ? this.player1.score : this.player2.score;
+    },
+
+    get leftGames() {
+      return this.reversed ? this.player2.games : this.player1.games;
+    },
+
+    get rightGames() {
+      return this.reversed ? this.player1.games : this.player2.games;
+    },
+
+    leftScored() {
+      if (this.reversed) {
+        this.player2Scored();
+      } else {
+        this.player1Scored();
+      }
+    },
+
+    rightScored() {
+      if (this.reversed) {
+        this.player1Scored();
+      } else {
+        this.player2Scored();
+      }
+    },
+
     player1Scored() {
       this.player1.score += 1;
       // play to 11 AND win by more than one point
-      if (this.player1.score >= Alpine.store("config").winningScore && this.player1.score > this.player2.score + 1) {
+      if (
+        this.player1.score >= Alpine.store("config").winningScore &&
+        this.player1.score > this.player2.score + 1
+      ) {
         this.recordGame(this.player1);
       }
     },
@@ -186,7 +255,10 @@ document.addEventListener("alpine:init", () => {
     player2Scored() {
       this.player2.score += 1;
       // play to 11 AND win by more than one point
-      if (this.player2.score >= Alpine.store("config").winningScore && this.player2.score > this.player1.score + 1) {
+      if (
+        this.player2.score >= Alpine.store("config").winningScore &&
+        this.player2.score > this.player1.score + 1
+      ) {
         this.recordGame(this.player2);
       }
     },
@@ -195,12 +267,20 @@ document.addEventListener("alpine:init", () => {
       this.player1.games = 0;
       this.player2.games = 0;
       this.gameLog = [];
+      this.reversed = false;
       this.newGame();
+    },
+
+    switchSides() {
+      this.reversed = !this.reversed;
     },
 
     newGame() {
       this.player1.score = 0;
       this.player2.score = 0;
+      if (Alpine.store("config").switchSides) {
+        this.switchSides();
+      }
       Alpine.store("state", "game");
     },
 
@@ -213,7 +293,11 @@ document.addEventListener("alpine:init", () => {
     },
 
     recordGame(winner) {
-      this.gameLog.push({ winner, player1score: this.player1.score, player2score: this.player2.score});
+      this.gameLog.push({
+        winner,
+        player1score: this.player1.score,
+        player2score: this.player2.score,
+      });
       winner.games += 1;
       if (winner.games > Alpine.store("config").matchLength / 2) {
         this.showMatchWinner();
@@ -222,11 +306,27 @@ document.addEventListener("alpine:init", () => {
       }
     },
 
+    get lastGameLeftScore() {
+      return this.reversed
+        ? this.lastGame.player2score
+        : this.lastGame.player1score;
+    },
+
+    get lastGameRightScore() {
+      return this.reversed
+        ? this.lastGame.player1score
+        : this.lastGame.player2score;
+    },
+
     get lastGame() {
       if (this.gameLog.length === 0) {
-        return { winner: 'Error', player1Score: 'Error', player2Score: 'Error' };
+        return {
+          winner: "Error",
+          player1Score: "Error",
+          player2Score: "Error",
+        };
       }
-      return this.gameLog[(this.gameLog.length - 1)];
+      return this.gameLog[this.gameLog.length - 1];
     },
 
     get winnerText() {
@@ -253,6 +353,5 @@ document.addEventListener("alpine:init", () => {
       this.player1.score = 0;
       this.player2.score = 0;
     },
-
   });
 });

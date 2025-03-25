@@ -1,31 +1,39 @@
-{% macro score(player) %}
-  <div class="flex flex-col font-sports tracking-wider mt-10 {% if player == 'player1' %}border-r-2 border-black{% endif %}">
-    <div class="w-full font-medium text-3xl md:text-5xl xl:text-7xl text-center mb-8 tracking-wider">
-      <span class="border-b-4 border-black px-8 pb-2 w-auto" x-text="$store.match.{{ player }}.name" data-test="{{player}}-name"></span>
+{% macro score(side) %}
+    <div class="ltr flex flex-col font-sports tracking-wider mt-10 {% if side == 'left' %}border-r-2 border-black{% endif %}">
+        <div class="mb-8 w-full text-3xl font-medium tracking-wider text-center md:text-5xl xl:text-7xl">
+            <span class="px-8 pb-2 w-auto border-b-4 border-black"
+                  x-text="$store.match.{{ side }}Name"
+                  data-test="{{ side }}-name"></span>
+        </div>
+        <div class="flex {% if side == 'right' %}flex-row-reverse{% endif %} mx-4">
+            <div class="flex-col items-center w-3/5 font-medium text-center">
+                <div class="text-2xl md:text-5xl">Score</div>
+                <div class="leading-none text-[15rem] font-seven md:text-[21rem]"
+                     x-text="$store.match.{{ side }}Score"
+                     data-test="{{ side }}-score"></div>
+            </div>
+            <div class="flex-col items-center w-2/5 text-center">
+                <div class="text-xl font-medium tracking-wider md:text-3xl">Games</div>
+                <div class="text-5xl leading-none md:text-7xl font-seven"
+                     x-text="$store.match.{{ side }}Games"
+                     data-test="{{ side }}-games"></div>
+            </div>
+        </div>
+        <div class="flex col-span-full col-start-1 justify-center mt-8 text-lg font-medium tracking-wider md:text-2xl"
+             x-data
+             x-show="$store.state === 'game'">
+            <button class="py-2 px-4 mx-4 text-black uppercase bg-white border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 font-sports border-t-1 border-l-1 selectable"
+                    x-text="$store.match.{{ side }}Name + ' Scored'"
+                    @click="$store.match.{{ side }}Scored()"
+                    data-test="{{ side }}-button"></button>
+        </div>
+        <div class="flex col-span-full col-start-1 justify-center mt-8 text-2xl font-medium tracking-wider"
+             x-data
+             x-show="$store.state === 'correction'">
+            <button class="py-2 px-4 mx-4 text-black uppercase bg-white border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 font-sports border-t-1 border-l-1 selectable"
+                    data-test="{{ side }}-correction-button"
+                    x-text="'Subtract point from ' + $store.match.{{ side }}Name"
+                    @click="$store.match.{{ side }}Correction()"></button>
+        </div>
     </div>
-    <div class="flex {% if player == 'player2' %}flex-row-reverse{% endif %} mx-4">
-      <div class="w-3/5 text-center font-medium flex-col items-center">
-        <div class="text-2xl md:text-5xl">Score</div>
-        <div class="text-[15rem] md:text-[21rem] font-seven leading-none" x-text="$store.match.{{ player }}.score" data-test="{{player}}-score"></div>
-      </div>
-      <div class="w-2/5 text-center flex-col items-center">
-        <div class="text-xl md:text-3xl tracking-wider font-medium">Games</div>
-        <div class="text-5xl md:text-7xl font-seven leading-none" x-text="$store.match.{{ player }}.games" data-test="{{player}}-games"></div>
-      </div>
-    </div>
-    <div class="col-start-1 col-span-full font-medium tracking-wider text-lg md:text-2xl flex justify-center mt-8" x-data x-show="$store.state === 'game'">
-      <button class="font-sports uppercase bg-white text-black border-t-1 border-l-1 border-b-4 border-r-4 border-black mx-4 px-4 py-2 active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
-              x-text="$store.match.{{ player }}.name + ' Scored'"
-              @click="$store.match.{{ player }}Scored()"
-              data-test="{{player}}-button"
-      ></button>
-    </div>
-    <div class="col-start-1 col-span-full font-medium tracking-wider text-2xl flex justify-center mt-8" x-data x-show="$store.state === 'correction'">
-      <button class="font-sports uppercase bg-white text-black border-t-1 border-l-1 border-b-4 border-r-4 border-black mx-4 px-4 py-2 active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
-              data-test="{{player}}-correction-button"
-              x-text="'Subtract point from ' + $store.match.{{ player }}.name"
-              @click="$store.match.{{ player }}Correction()"
-      ></button>
-    </div>
-  </div>
 {% endmacro %}
