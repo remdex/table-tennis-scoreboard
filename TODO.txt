@@ -2,6 +2,7 @@ TODO
 
 change from setup button to menu with setup, swap ends,
 instant correction keybinds
+new game in menu
 
 new features notification
 
