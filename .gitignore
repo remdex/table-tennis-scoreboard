@@ -1,16 +1,30 @@
-_site/
-_tmp/
+# build output
+dist/
 
-# Local Netlify folder
-.netlify
+# generated types
+.astro/
 
-# Devenv
-.devenv*
-devenv.local.nix
+# dependencies
+node_modules/
 
-# direnv
-.direnv
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# pre-commit
-.pre-commit-config.yaml
+# environment variables
+.env
+.env.production
 
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

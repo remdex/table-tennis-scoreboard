@@ -1,0 +1,91 @@
+---
+import Logo from "../components/Logo.astro";
+interface Props {
+  title: string;
+  description?: string;
+  background?: string;
+}
+import "../styles/global.css";
+let { title, description, background } = Astro.props;
+if (!description) {
+  description = "Keep score in your table tennis game.";
+}
+if (!background) {
+  background = "bg-black";
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:description" content={description} />
+    <meta property="twitter:description" content={description} />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:url" content="https://tabletennisscoreboard.com" />
+    <meta
+      property="og:image"
+      content="https://og.rickhenry.dev/tts/opengraph-image"
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta
+      name="twitter:image"
+      content="https://og.rickhenry.dev/tts/opengraph-image"
+    />
+  </head>
+  <body class={`min-h-screen h-full antialiased ${background}`}>
+    <a
+      tabindex="0"
+      href="#main-content"
+      role="button"
+      class="absolute opacity-100 top-0 left-0 ml-2 mt-2 -translate-y-14 transition duration-200 ease-out focus:translate-y-0 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 ring-offset-black focus:ring-white z-50"
+    >
+      Skip to Content
+    </a>
+
+    <slot />
+
+    <footer class="w-full py-4 px-4 mt-10">
+      <div class="max-w-md md:max-w-3xl mx-auto w-full">
+        <a
+          href="https://rickhenry.dev"
+          class="flex justify-center items-center"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="sr-only">Rick Henry Development Logo</span>
+          <Logo />
+        </a>
+        <div class="text-gray-200 w-full text-center mt-2">
+          &#169; 2022 Rick Henry Development
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
