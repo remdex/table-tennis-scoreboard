@@ -1,8 +1,12 @@
 TODO
 
-change from setup button to menu with setup, swap ends,
 instant correction keybinds
+change from setup button to menu with setup, swap ends,
 new game in menu
+
+config for keybinds follow players or keybinds follow sides (internal model)
+
+control/subscribe from other device, unique code
 
 new features notification
 
@@ -13,6 +17,7 @@ reset config confirmation
 tests
 even bigger sizes
 one-off config options?
+loading configs, "tournament rules"
 
 
 exportable matches?

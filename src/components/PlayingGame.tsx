@@ -1,4 +1,10 @@
-import { onCleanup, onMount, type Setter } from "solid-js";
+import {
+  createSignal,
+  onCleanup,
+  onMount,
+  type Accessor,
+  type Setter,
+} from "solid-js";
 import { GameMode, type GameConfig, type MatchState } from "./common";
 import PlayerScore from "./PlayerScore";
 
@@ -11,7 +17,20 @@ interface PlayingGameProps {
   setMatchState: Setter<MatchState>;
 }
 
+interface SidePlayer {
+  name: string;
+  score: number;
+  games: number;
+  onScore: Function;
+  onCorrection: Function;
+  redNumber: Accessor<boolean>;
+}
+
 export default function PlayingGame(props: PlayingGameProps) {
+  const [showAdvancedConfig, setShowAdvancedConfig] = createSignal(false);
+  const [player1RedNumber, setPlayer1RedNumber] = createSignal(false);
+  const [player2RedNumber, setPlayer2RedNumber] = createSignal(false);
+
   const player1Scored = () =>
     props.setMatchState((state) => {
       const nextScore = state.player1.score + 1;
@@ -126,30 +145,34 @@ export default function PlayingGame(props: PlayingGameProps) {
       };
     });
   };
-  const leftPlayer = () =>
+  const leftPlayer = (): SidePlayer =>
     props.matchState.swapped
       ? {
           ...props.matchState.player2,
           onScore: player2Scored,
           onCorrection: player2Correction,
+          redNumber: player2RedNumber,
         }
       : {
           ...props.matchState.player1,
           onScore: player1Scored,
           onCorrection: player1Correction,
+          redNumber: player1RedNumber,
         };
 
-  const rightPlayer = () =>
+  const rightPlayer = (): SidePlayer =>
     props.matchState.swapped
       ? {
           ...props.matchState.player1,
           onScore: player1Scored,
           onCorrection: player1Correction,
+          redNumber: player1RedNumber,
         }
       : {
           ...props.matchState.player2,
           onScore: player2Scored,
           onCorrection: player2Correction,
+          redNumber: player2RedNumber,
         };
 
   const handleKeyUp = (ev: KeyboardEvent) => {
@@ -163,9 +186,13 @@ export default function PlayingGame(props: PlayingGameProps) {
       } else if (ev.key === props.config.scoreCorrectionKey) {
         props.setMode(GameMode.Correction);
       } else if (ev.key === props.config.player1CorrectionKey) {
+        setPlayer1RedNumber(true);
         player1Correction();
+        setTimeout(() => setPlayer1RedNumber(false), 300);
       } else if (ev.key === props.config.player2CorrectionKey) {
+        setPlayer2RedNumber(true);
         player2Correction();
+        setTimeout(() => setPlayer2RedNumber(false), 300);
       }
     } else if (props.mode === GameMode.Correction) {
       ev.preventDefault();
@@ -207,6 +234,7 @@ export default function PlayingGame(props: PlayingGameProps) {
         games={leftPlayer().games}
         onScore={leftPlayer().onScore}
         onCorrection={leftPlayer().onCorrection}
+        redNumber={leftPlayer().redNumber()}
         testid="left"
       />
       <PlayerScore
@@ -218,6 +246,7 @@ export default function PlayingGame(props: PlayingGameProps) {
         games={rightPlayer().games}
         onScore={rightPlayer().onScore}
         onCorrection={rightPlayer().onCorrection}
+        redNumber={rightPlayer().redNumber()}
         testid="right"
       />
     </main>

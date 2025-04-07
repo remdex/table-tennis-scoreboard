@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { setSideScore } from "./util";
+import { defaultGameConfig } from "../src/components/common";
 
 // TODO: add tests for sides swapped and full match
 test.describe("game", () => {
@@ -269,7 +270,7 @@ test.describe("game", () => {
       await expect(page.getByTestId("left-score")).toContainText("0");
     });
 
-    test("player 2 score cannot be negative", async ({ page }) => {
+    test("right score cannot be negative", async ({ page }) => {
       await expect(page.getByTestId("left-button")).toBeVisible();
       await expect(page.getByTestId("right-button")).toBeVisible();
       for (let i = 0; i < 3; ++i) {
@@ -292,7 +293,7 @@ test.describe("game", () => {
       page,
     }) => {
       await expect(page.getByTestId("left-score")).toContainText("0");
-      await page.keyboard.press("ArrowLeft");
+      await page.keyboard.press(defaultGameConfig.player1Key);
       await expect(page.getByTestId("left-score")).toContainText("1");
       await expect(page.getByTestId("right-score")).toContainText("0");
     });
@@ -301,7 +302,7 @@ test.describe("game", () => {
       page,
     }) => {
       await expect(page.getByTestId("right-score")).toContainText("0");
-      await page.keyboard.press("ArrowRight");
+      await page.keyboard.press(defaultGameConfig.player2Key);
       await expect(page.getByTestId("right-score")).toContainText("1");
       await expect(page.getByTestId("left-score")).toContainText("0");
     });
@@ -311,7 +312,7 @@ test.describe("game", () => {
       await expect(
         page.getByTestId("left-correction-button"),
       ).not.toBeVisible();
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(defaultGameConfig.scoreCorrectionKey);
       await expect(page.getByTestId("left-button")).not.toBeVisible();
       await expect(page.getByTestId("left-correction-button")).toBeVisible();
     });
@@ -327,7 +328,7 @@ test.describe("game", () => {
       await expect(
         page.getByTestId("left-correction-button"),
       ).not.toBeVisible();
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(defaultGameConfig.scoreCorrectionKey);
 
       await expect(page.getByTestId("left-button")).not.toBeVisible();
       await expect(page.getByTestId("left-correction-button")).toBeVisible();
@@ -350,15 +351,15 @@ test.describe("game", () => {
       await expect(
         page.getByTestId("right-correction-button"),
       ).not.toBeVisible();
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(defaultGameConfig.scoreCorrectionKey);
 
       await expect(page.getByTestId("right-button")).not.toBeVisible();
       await expect(page.getByTestId("right-correction-button")).toBeVisible();
 
-      await page.keyboard.press("ArrowRight");
+      await page.keyboard.press(defaultGameConfig.player2Key);
       await expect(page.getByTestId("right-score")).toContainText("1");
 
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(defaultGameConfig.scoreCorrectionKey);
       await expect(page.getByTestId("right-score")).toContainText("1");
     });
 
@@ -374,18 +375,18 @@ test.describe("game", () => {
       await expect(
         page.getByTestId("left-correction-button"),
       ).not.toBeVisible();
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(defaultGameConfig.scoreCorrectionKey);
 
       await expect(page.getByTestId("left-button")).not.toBeVisible();
       await expect(page.getByTestId("left-correction-button")).toBeVisible();
 
       for (let i = 0; i < 3; ++i) {
-        await page.keyboard.press("ArrowLeft");
+        await page.keyboard.press(defaultGameConfig.player1Key);
       }
 
       await expect(page.getByTestId("left-score")).toContainText("2");
 
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(defaultGameConfig.scoreCorrectionKey);
       await expect(page.getByTestId("left-score")).toContainText("2");
     });
 
@@ -401,17 +402,18 @@ test.describe("game", () => {
       await expect(
         page.getByTestId("right-correction-button"),
       ).not.toBeVisible();
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(defaultGameConfig.scoreCorrectionKey);
 
       await expect(page.getByTestId("right-button")).not.toBeVisible();
       await expect(page.getByTestId("right-correction-button")).toBeVisible();
 
       for (let i = 0; i < 4; ++i) {
-        await page.keyboard.press("ArrowRight");
+        await page.keyboard.press(defaultGameConfig.player2Key);
       }
+
       await expect(page.getByTestId("right-score")).toContainText("2");
 
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(defaultGameConfig.scoreCorrectionKey);
       await expect(page.getByTestId("right-score")).toContainText("2");
     });
 
@@ -424,13 +426,13 @@ test.describe("game", () => {
       await expect(
         page.getByTestId("left-correction-button"),
       ).not.toBeVisible();
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(defaultGameConfig.scoreCorrectionKey);
 
       await expect(page.getByTestId("left-button")).not.toBeVisible();
       await expect(page.getByTestId("left-correction-button")).toBeVisible();
 
       for (let i = 0; i < 9; ++i) {
-        await page.keyboard.press("ArrowLeft");
+        await page.keyboard.press(defaultGameConfig.player1Key);
       }
       await expect(page.getByTestId("left-score")).toContainText("0");
 
@@ -447,33 +449,83 @@ test.describe("game", () => {
       await expect(
         page.getByTestId("right-correction-button"),
       ).not.toBeVisible();
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(defaultGameConfig.scoreCorrectionKey);
 
       await expect(page.getByTestId("right-button")).not.toBeVisible();
       await expect(page.getByTestId("right-correction-button")).toBeVisible();
 
       for (let i = 0; i < 9; ++i) {
-        await page.keyboard.press("ArrowRight");
+        await page.keyboard.press(defaultGameConfig.player2Key);
       }
 
       await expect(page.getByTestId("right-score")).toContainText("0");
 
-      await page.keyboard.press("Tab");
+      await page.keyboard.press(defaultGameConfig.scoreCorrectionKey);
       await expect(page.getByTestId("right-score")).toContainText("0");
     });
 
-    test("can use any key to advance the game", async ({ page }) => {
-      for (let i = 0; i < 11; ++i) {
-        await page.getByTestId("right-button").click();
-      }
-      await expect(page.getByTestId("player2-score")).toContainText("11");
-      await expect(page.getByTestId("winner-text")).toBeVisible();
-      await page.keyboard.press("ArrowRight");
-      await expect(page.getByTestId("winner-text")).not.toBeVisible();
-      // if switch sides screen shows, it will be gone in 2 seconds
-      await expect(page.getByTestId("right-score")).toBeVisible({
-        timeout: 2100,
+    [
+      "a",
+      "s",
+      "d",
+      "f",
+      "Space",
+      "ArrowLeft",
+      "ArrowUp",
+      "ArrowRight",
+      "ArrowDown",
+    ].forEach((key) => {
+      test(`can use any key to advance the game: ${key}`, async ({ page }) => {
+        await setSideScore(page, "right", 11);
+        await expect(page.getByTestId("player2-score")).toContainText("11");
+        await expect(page.getByTestId("winner-text")).toBeVisible();
+        await page.keyboard.press(key);
+        await expect(page.getByTestId("winner-text")).not.toBeVisible();
+        // if switch sides screen shows, it will be gone in 2 seconds
+        await expect(page.getByTestId("right-score")).toBeVisible({
+          timeout: 2100,
+        });
       });
+    });
+
+    test("decreases left score by 1 with the player 1 instant correction key", async ({
+      page,
+    }) => {
+      await setSideScore(page, "left", 2);
+      await expect(page.getByTestId("left-score")).toContainText("2");
+
+      await expect(page.getByTestId("left-button")).toBeVisible();
+      await expect(
+        page.getByTestId("left-correction-button"),
+      ).not.toBeVisible();
+
+      await page.keyboard.press(defaultGameConfig.player1CorrectionKey);
+      await expect(page.getByTestId("left-score")).toContainText("1");
+
+      await expect(page.getByTestId("left-button")).toBeVisible();
+      await expect(
+        page.getByTestId("left-correction-button"),
+      ).not.toBeVisible();
+    });
+
+    test("decreases right score by 1 with the player 1 instant correction key", async ({
+      page,
+    }) => {
+      await setSideScore(page, "right", 2);
+      await expect(page.getByTestId("right-score")).toContainText("2");
+
+      await expect(page.getByTestId("right-button")).toBeVisible();
+      await expect(
+        page.getByTestId("right-correction-button"),
+      ).not.toBeVisible();
+
+      await page.keyboard.press(defaultGameConfig.player2CorrectionKey);
+      await expect(page.getByTestId("right-score")).toContainText("1");
+
+      await expect(page.getByTestId("right-button")).toBeVisible();
+      await expect(
+        page.getByTestId("right-correction-button"),
+      ).not.toBeVisible();
     });
   });
 });

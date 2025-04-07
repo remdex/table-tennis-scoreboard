@@ -149,4 +149,35 @@ test.describe("match", () => {
     await expect(page.getByTestId("player1-games")).toContainText("3");
     await expect(page.getByTestId("player2-games")).toContainText("2");
   });
+
+  test("Plays a full match and can reset", async ({ page }) => {
+    await setSideScore(page, "left", 11); // player1
+    await advanceGame(page);
+
+    // swap sides
+
+    await setSideScore(page, "right", 11); // player1
+    await advanceGame(page);
+
+    // swap sides
+
+    await setSideScore(page, "left", 11); // player1
+    await expect(page.getByTestId("winner-text")).toContainText("Player 1");
+    await page.getByTestId("new-match-button").click();
+
+    await expect(page.getByTestId("winner-text")).not.toBeVisible({
+      timeout: 750,
+    });
+
+    await expect(page.getByTestId("left-score")).toBeVisible();
+    await expect(page.getByTestId("right-score")).toBeVisible();
+    await expect(page.getByTestId("left-games")).toBeVisible();
+    await expect(page.getByTestId("right-games")).toBeVisible();
+    await expect(page.getByTestId("left-score")).toContainText("0");
+    await expect(page.getByTestId("right-score")).toContainText("0");
+    await expect(page.getByTestId("left-games")).toContainText("0");
+    await expect(page.getByTestId("right-games")).toContainText("0");
+
+    await expect(page.getByTestId("winner-text")).not.toBeVisible();
+  });
 });

@@ -85,6 +85,7 @@ export default function Game() {
     }
   };
   const newMatch = () => {
+    setMode(GameMode.Game);
     setMatchState((state) => ({
       player1: {
         name: state.player1.name,

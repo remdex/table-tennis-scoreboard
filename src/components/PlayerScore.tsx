@@ -10,6 +10,7 @@ interface PlayerScoreProps {
   onScore: Function;
   onCorrection: Function;
   testid: string;
+  redNumber: boolean;
 }
 
 export default function PlayerScore(props: PlayerScoreProps) {
@@ -32,10 +33,18 @@ export default function PlayerScore(props: PlayerScoreProps) {
         <div class="flex-col items-center w-3/5 font-medium text-center">
           <div class="text-2xl md:text-5xl">Score</div>
           <div
-            class="leading-none text-[15rem] font-seven md:text-[21rem]"
+            class="leading-none text-[15rem] font-seven md:text-[21rem] transition-all duration-50 ease-out"
             data-testid={`${props.testid}-score`}
           >
-            {props.score}
+            <span
+              class={
+                props.redNumber
+                  ? "transition-all duration-50 ease-out text-rose-400"
+                  : "transition-all duration-50 ease-in text-white"
+              }
+            >
+              {props.score}
+            </span>
           </div>
         </div>
         <div class="flex-col items-center w-2/5 text-center">

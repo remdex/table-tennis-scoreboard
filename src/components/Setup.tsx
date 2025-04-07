@@ -15,6 +15,8 @@ enum Listening {
   Player1Key = 1,
   Player2Key = 2,
   ScoreCorrectionKey = 3,
+  Player1CorrectionKey = 4,
+  Player2CorrectionKey = 5,
 }
 
 export default function Setup(props: SetupProps) {
@@ -25,6 +27,12 @@ export default function Setup(props: SetupProps) {
   );
   const [player1Key, setPlayer1Key] = createSignal(props.config.player1Key);
   const [player2Key, setPlayer2Key] = createSignal(props.config.player2Key);
+  const [player1CorrectionKey, setPlayer1CorrectionKey] = createSignal(
+    props.config.player1CorrectionKey,
+  );
+  const [player2CorrectionKey, setPlayer2CorrectionKey] = createSignal(
+    props.config.player2CorrectionKey,
+  );
   const [scoreCorrectionKey, setScoreCorrectionKey] = createSignal(
     props.config.scoreCorrectionKey,
   );
@@ -71,6 +79,34 @@ export default function Setup(props: SetupProps) {
     setListeningFor(Listening.ScoreCorrectionKey);
   };
 
+  const recordPlayer1CorrectionKey = (ev: KeyboardEvent) => {
+    ev.preventDefault();
+    if (ev.key !== "Escape") {
+      setPlayer1CorrectionKey(ev.key);
+    }
+    document.removeEventListener("keyup", recordPlayer1CorrectionKey);
+    setListeningFor(Listening.None);
+  };
+
+  const listenForPlayer1CorrectionKey = () => {
+    document.addEventListener("keyup", recordPlayer1CorrectionKey);
+    setListeningFor(Listening.Player1CorrectionKey);
+  };
+
+  const recordPlayer2CorrectionKey = (ev: KeyboardEvent) => {
+    ev.preventDefault();
+    if (ev.key !== "Escape") {
+      setPlayer2CorrectionKey(ev.key);
+    }
+    document.removeEventListener("keyup", recordPlayer2CorrectionKey);
+    setListeningFor(Listening.None);
+  };
+
+  const listenForPlayer2CorrectionKey = () => {
+    document.addEventListener("keyup", recordPlayer2CorrectionKey);
+    setListeningFor(Listening.Player2CorrectionKey);
+  };
+
   const saveConfig = (ev: SubmitEvent) => {
     ev.preventDefault();
     const data = new FormData(formRef);
@@ -93,6 +129,7 @@ export default function Setup(props: SetupProps) {
       data.get("player2Name") ?? props.matchState.player2.name;
 
     const switchSides = data.get("switchSides") === "on" || false;
+    console.log(switchSides);
     const nextConfig = {
       matchLength,
       winningScore,
@@ -100,8 +137,8 @@ export default function Setup(props: SetupProps) {
       scoreCorrectionKey: scoreCorrectionKey(),
       player1Key: player1Key(),
       player2Key: player2Key(),
-      player1CorrectionKey: "1",
-      player2CorrectionKey: "2",
+      player1CorrectionKey: player1CorrectionKey(),
+      player2CorrectionKey: player2CorrectionKey(),
     };
 
     props.setConfig(nextConfig);
@@ -180,21 +217,21 @@ export default function Setup(props: SetupProps) {
         </h4>
         <div class="flex flex-col my-4 gap-y-2 gap-x-4 sm:flex-row sm:space-y-0 sm:space-x-6">
           <RecordKeyInput
-            label="Player 1 Key"
+            label="Player 1 Scored"
             listening={listeningFor() === Listening.Player1Key}
             onRecordKey={listenForPlayer1Key}
             keyName={player1Key()}
             testid="player1-keybind-button"
           />
           <RecordKeyInput
-            label="Player 2 Key"
+            label="Player 2 Scored"
             listening={listeningFor() === Listening.Player2Key}
             onRecordKey={listenForPlayer2Key}
             keyName={player2Key()}
             testid="player2-keybind-button"
           />
           <RecordKeyInput
-            label="Correction Key"
+            label="Correction Mode"
             listening={listeningFor() === Listening.ScoreCorrectionKey}
             onRecordKey={listenForScoreCorrectionKey}
             keyName={scoreCorrectionKey()}
@@ -212,7 +249,7 @@ export default function Setup(props: SetupProps) {
           </p>
         </details>
       </section>
-      <section class="grid sm:grid-cols-2 mt-4">
+      <section class="grid sm:grid-cols-2 mt-4 gap-4">
         <div class="flex-col flex gap-2">
           <label
             for="winningScore"
@@ -271,9 +308,7 @@ export default function Setup(props: SetupProps) {
             </p>
           </details>
         </div>
-      </section>
-      <section class="flex my-4">
-        <div class="flex-col">
+        <div class="flex flex-col">
           <h3 class="mb-2 text-2xl font-normal tracking-wider font-sports">
             Switch Sides
           </h3>
@@ -300,6 +335,37 @@ export default function Setup(props: SetupProps) {
             <p class="font-mono">
               It is traditional to switch sides between games in a match. The
               scoreboard can swap sides to match if you want.
+            </p>
+          </details>
+        </div>
+        <div class="flex-col" data-testid="advanced-config">
+          <h4 class="mb-2 text-2xl font-normal tracking-wider font-sports">
+            Instant Correction Keys
+          </h4>
+          <div class="flex flex-col my-4 gap-y-2 gap-x-4 sm:flex-row sm:space-y-0 sm:space-x-6">
+            <RecordKeyInput
+              label="Player 1 Correction"
+              listening={listeningFor() === Listening.Player1CorrectionKey}
+              onRecordKey={listenForPlayer1CorrectionKey}
+              keyName={player1CorrectionKey()}
+              testid="player1-correction-keybind-button"
+            />
+            <RecordKeyInput
+              label="Player 2 Correction"
+              listening={listeningFor() === Listening.Player2CorrectionKey}
+              onRecordKey={listenForPlayer2CorrectionKey}
+              keyName={player2CorrectionKey()}
+              testid="player2-correction-keybind-button"
+            />
+          </div>
+          <details>
+            <summary class="font-bold font-mono cursor-pointer">
+              More info
+            </summary>
+            <p class="font-mono">
+              If you have more keys available, you might want to bind keys to
+              make corrections instantly with a single keybind instead of having
+              to go to correction mode.
             </p>
           </details>
         </div>

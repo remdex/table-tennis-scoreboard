@@ -10,7 +10,7 @@ export async function setSideScore(
   await expect(scoreEl).toContainText("0");
 
   for (let i = 0; i < score; ++i) {
-    await buttonEl.click();
+    await buttonEl.click({ delay: 50 });
   }
   if (await scoreEl.isVisible()) {
     await expect(scoreEl).toContainText(`${score}`);
@@ -45,7 +45,7 @@ export async function advanceGame(page: Page) {
     (await page.getByTestId("start-game-button").isVisible())
   ) {
     try {
-      await page.getByTestId("start-game-button").click();
+      await page.getByTestId("start-game-button").click({ timeout: 2000 });
     } catch (e) {}
   }
 }

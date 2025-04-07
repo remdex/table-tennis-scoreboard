@@ -76,9 +76,9 @@ export default function MatchOver(props: MatchOverProps) {
         <button
           class="font-mono text-2xl uppercase bg-white text-black border-t-0 border-l-0 border-b-4 border-r-4 border-black px-8 py-2 font-bold active:border-b-0 active:border-r-0 active:border-t-4 active:border-l-4 selectable"
           onClick={() => props.newMatch()}
-          data-testid="new-game-button"
+          data-testid="new-match-button"
         >
-          New Game
+          New Match
         </button>
       </section>
       <div class="mt-8 text-white container max-w-2xl mx-auto">
