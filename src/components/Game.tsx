@@ -1,4 +1,4 @@
-import { createSignal, Switch, Match, onMount } from "solid-js";
+import { createSignal, Switch, Match, onMount, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import {
   GameMode,
@@ -11,6 +11,7 @@ import GameOver from "./GameOver";
 import SwitchingSides from "./SwitchingSides";
 import MatchOver from "./MatchOver";
 import Setup from "./Setup";
+import Menu from "./Menu";
 
 // TODO: make option to download match data
 // TODO: load initial config from localStorage
@@ -154,7 +155,7 @@ export default function Game() {
         <Switch fallback={<div></div>}>
           <Match when={mode() === GameMode.Game}>
             <button
-              class="py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t-1 border-l-1 selectable"
+              class="py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t border-l selectable"
               data-testid="correction-button"
               title="Correct a scoring mistake"
               onClick={() => setMode(GameMode.Correction)}
@@ -164,7 +165,7 @@ export default function Game() {
           </Match>
           <Match when={mode() === GameMode.Correction}>
             <button
-              class="py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t-1 border-l-1 selectable"
+              class="py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t border-l selectable"
               onClick={() => setMode(GameMode.Game)}
               title="Correct a scoring mistake"
               data-testid="end-correction-button"
@@ -174,6 +175,44 @@ export default function Game() {
           </Match>
         </Switch>
       </div>
+      <Show when={mode() !== GameMode.Setup}>
+        <Menu>
+          <ul class="min-w-24 text-center mb-2 bg-white border border-b-4 border-r-4 box-shadow border-black font-mono font-bold divide-y-2 divide-y-black">
+            <li class="p-2">
+              <a href="/help" target="_blank" data-testid="help-button">
+                Help
+              </a>
+            </li>
+            <li class="p-2">
+              <button
+                class="cursor-pointer"
+                onClick={() => setMode(GameMode.Setup)}
+                title="Configure Match Settings"
+                data-testid="setup-button"
+              >
+                Setup
+              </button>
+            </li>
+          </ul>
+        </Menu>
+      </Show>
+    </div>
+  );
+}
+
+// swap sides button in menu
+//<button
+//  class="py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t border-l selectable"
+//  onClick={() =>
+//    setMatchState((state) => ({ ...state, swapped: !state.swapped }))
+//  }
+//  title="Correct a scoring mistake"
+//  data-testid="end-correction-button"
+//>
+//  swap
+//</button>
+/*
+ *
       {mode() !== GameMode.Setup && (
         <>
           <div
@@ -181,7 +220,7 @@ export default function Game() {
             class="fixed bottom-0 right-1/2 mb-4 transform translate-x-1/2"
           >
             <a
-              class="block py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t-1 border-l-1 selectable"
+              class="block py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t border-l selectable"
               href="/help"
               target="_blank"
               data-testid="help-button"
@@ -191,7 +230,7 @@ export default function Game() {
           </div>
           <div id="config" class="fixed right-0 bottom-0 mr-4 mb-4">
             <button
-              class="py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t-1 border-l-1 selectable"
+              class="py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t border-l-1 selectable"
               onClick={() => setMode(GameMode.Setup)}
               title="Configure Match Settings"
               data-testid="setup-button"
@@ -201,18 +240,4 @@ export default function Game() {
           </div>
         </>
       )}
-    </div>
-  );
-}
-
-// swap sides button in menu
-//<button
-//  class="py-2 px-4 font-mono font-bold text-black uppercase bg-white border border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t-1 border-l-1 selectable"
-//  onClick={() =>
-//    setMatchState((state) => ({ ...state, swapped: !state.swapped }))
-//  }
-//  title="Correct a scoring mistake"
-//  data-testid="end-correction-button"
-//>
-//  swap
-//</button>
+*/

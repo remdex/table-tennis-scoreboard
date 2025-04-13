@@ -62,7 +62,7 @@ export default function PlayerScore(props: PlayerScoreProps) {
       {props.mode === GameMode.Game && (
         <div class="flex col-span-full col-start-1 justify-center mt-8 text-lg font-medium tracking-wider md:text-2xl">
           <button
-            class="py-2 px-4 mx-4 text-black uppercase bg-white border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 font-sports border-t-1 border-l-1 selectable"
+            class="py-2 px-4 mx-4 text-black uppercase bg-white border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 font-sports border-t border-l selectable"
             onClick={() => props.onScore()}
             data-testid={`${props.testid}-button`}
           >
@@ -73,7 +73,7 @@ export default function PlayerScore(props: PlayerScoreProps) {
       {props.mode === GameMode.Correction && (
         <div class="flex col-span-full col-start-1 justify-center mt-8 text-2xl font-medium tracking-wider">
           <button
-            class="py-2 px-4 mx-4 text-black uppercase bg-white border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 font-sports border-t-1 border-l-1 selectable"
+            class="py-2 px-4 mx-4 text-black uppercase bg-white border-r-4 border-b-4 border-black active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 border-t border-l font-sports selectable"
             data-testid={`${props.testid}-correction-button`}
             onClick={() => props.onCorrection()}
           >
