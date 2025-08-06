@@ -2,11 +2,13 @@ import {
   createSignal,
   onCleanup,
   onMount,
+  createEffect,
   type Accessor,
   type Setter,
 } from "solid-js";
 import { GameMode, type GameConfig, type MatchState } from "./common";
 import PlayerScore from "./PlayerScore";
+import { BacklogService } from "./BacklogService";
 
 // TODO: option to hide ui
 interface PlayingGameProps {
@@ -15,6 +17,7 @@ interface PlayingGameProps {
   config: GameConfig;
   matchState: MatchState;
   setMatchState: Setter<MatchState>;
+  newGame: () => void;
 }
 
 interface SidePlayer {
@@ -30,6 +33,9 @@ export default function PlayingGame(props: PlayingGameProps) {
   const [showAdvancedConfig, setShowAdvancedConfig] = createSignal(false);
   const [player1RedNumber, setPlayer1RedNumber] = createSignal(false);
   const [player2RedNumber, setPlayer2RedNumber] = createSignal(false);
+  
+  // Backlog service setup
+  let backlogService: BacklogService | null = null;
 
   const player1Scored = () =>
     props.setMatchState((state) => {
@@ -216,10 +222,62 @@ export default function PlayingGame(props: PlayingGameProps) {
       console.log("added event listener");
       globalThis.addEventListener("keyup", handleKeyUp);
     }
+    
+    // Initialize backlog service if URL is configured
+    if (props.config.backlogUrl) {
+      backlogService = new BacklogService(
+        props.config.backlogUrl,
+        props.setMatchState,
+        props.setMode,
+        player1Scored,
+        player2Scored,
+        player1Correction,
+        player2Correction,
+        props.newGame
+      );
+      backlogService.start();
+      console.log("Started backlog service for:", props.config.backlogUrl);
+    }
   });
+  
+  // Effect to handle backlog URL changes
+  createEffect(() => {
+    const url = props.config.backlogUrl;
+    
+    if (url && backlogService) {
+      // Update existing service
+      backlogService.updateUrl(url);
+    } else if (url && !backlogService) {
+      // Create new service
+      backlogService = new BacklogService(
+        url,
+        props.setMatchState,
+        props.setMode,
+        player1Scored,
+        player2Scored,
+        player1Correction,
+        player2Correction,
+        props.newGame
+      );
+      backlogService.start();
+      console.log("Started backlog service for:", url);
+    } else if (!url && backlogService) {
+      // Stop service if URL is removed
+      backlogService.stop();
+      backlogService = null;
+      console.log("Stopped backlog service");
+    }
+  });
+  
   onCleanup(() => {
     if (globalThis.removeEventListener) {
       globalThis.removeEventListener("keyup", handleKeyUp);
+    }
+    
+    // Stop backlog service
+    if (backlogService) {
+      backlogService.stop();
+      backlogService = null;
     }
   });
 

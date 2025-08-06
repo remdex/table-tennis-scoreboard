@@ -21,12 +21,12 @@ export default function Game() {
   const [mode, setMode] = createSignal<GameMode>(GameMode.Game);
   const [matchState, setMatchState] = createStore<MatchState>({
     player1: {
-      name: "Player 1",
+      name: "Home",
       score: 0,
       games: 0,
     },
     player2: {
-      name: "Player 2",
+      name: "Quest",
       score: 0,
       games: 0,
     },
@@ -43,8 +43,8 @@ export default function Game() {
       const loadedConfig = JSON.parse(localStorage.getItem("config") ?? "{}");
       if (loadedConfig instanceof Object) {
         setConfig({
-          ...loadedConfig,
           ...defaultGameConfig,
+          ...loadedConfig,
         });
       }
       const player1Name = localStorage.getItem("player1Name");
@@ -107,7 +107,7 @@ export default function Game() {
     <div
       classList={{
         "min-h-screen h-auto": true,
-        "bg-blue-700": mode() === GameMode.Game,
+        "bg-gray-700": mode() === GameMode.Game,
         "bg-red-700": mode() === GameMode.Correction,
         "bg-green-700":
           mode() === GameMode.GameOver ||
@@ -128,16 +128,17 @@ export default function Game() {
               setMatchState={setMatchState}
               config={config}
               matchState={matchState}
+              newGame={newGame}
             />
           </Match>
           <Match when={mode() === GameMode.GameOver}>
-            <GameOver matchState={matchState} newGame={newGame} />
+            <GameOver matchState={matchState} config={config} newGame={newGame} />
           </Match>
           <Match when={mode() === GameMode.SwitchingSides}>
             <SwitchingSides setMode={setMode} />
           </Match>
           <Match when={mode() === GameMode.MatchOver}>
-            <MatchOver newMatch={newMatch} matchState={matchState} />
+            <MatchOver newMatch={newMatch} matchState={matchState} config={config} />
           </Match>
           <Match when={mode() === GameMode.Setup}>
             <Setup
@@ -191,6 +192,22 @@ export default function Game() {
                 data-testid="setup-button"
               >
                 Setup
+              </button>
+            </li>
+            <li class="p-2">
+              <button
+                class="cursor-pointer"
+                onClick={() => {
+                  if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                  } else {
+                    document.documentElement.requestFullscreen();
+                  }
+                }}
+                title="Toggle fullscreen mode"
+                data-testid="fullscreen-button"
+              >
+                Fullscreen
               </button>
             </li>
           </ul>

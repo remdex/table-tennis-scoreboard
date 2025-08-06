@@ -19,6 +19,8 @@ export type GameConfig = {
   switchSides: boolean;
   player1CorrectionKey: string;
   player2CorrectionKey: string;
+  autoRestart: boolean;
+  backlogUrl?: string;
 };
 
 export type Player = {
@@ -40,10 +42,24 @@ export type MatchState = {
   swapped: boolean;
 };
 
+export enum BacklogEventType {
+  Player1Scored = 1,
+  Player2Scored = 2, 
+  Player1Decrease = 3,
+  Player2Decrease = 4,
+  RestartGame = 5,
+}
+
+export type BacklogEvent = {
+  type: BacklogEventType;
+  timestamp: string;
+};
+
 export const defaultGameConfig: GameConfig = {
   matchLength: 5,
   winningScore: 11,
   switchSides: true,
+  autoRestart: false,
   player1Key: "ArrowLeft",
   player2Key: "ArrowRight",
   scoreCorrectionKey: "Tab",

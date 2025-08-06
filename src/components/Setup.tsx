@@ -129,11 +129,14 @@ export default function Setup(props: SetupProps) {
       data.get("player2Name") ?? props.matchState.player2.name;
 
     const switchSides = data.get("switchSides") === "on" || false;
-    console.log(switchSides);
+    const autoRestart = data.get("autoRestart") === "on" || false;
+    const backlogUrl = data.get("backlogUrl") as string || undefined;
     const nextConfig = {
       matchLength,
       winningScore,
       switchSides,
+      autoRestart,
+      backlogUrl,
       scoreCorrectionKey: scoreCorrectionKey(),
       player1Key: player1Key(),
       player2Key: player2Key(),
@@ -338,6 +341,36 @@ export default function Setup(props: SetupProps) {
             </p>
           </details>
         </div>
+        <div class="flex flex-col">
+          <h3 class="mb-2 text-2xl font-normal tracking-wider font-sports">
+            Auto Restart
+          </h3>
+          <div class="flex items-center mt-4">
+            <label
+              for="autoRestart"
+              class="flex gap-4 items-center text-xl font-normal tracking-wider font-spots"
+            >
+              <span>Auto Restart Games/Matches?</span>
+              <input
+                type="checkbox"
+                id="autoRestart"
+                name="autoRestart"
+                class="mr-2 w-5 h-5 text-black border-2 border-black"
+                data-testid="auto-restart-input"
+                checked={props.config.autoRestart}
+              />
+            </label>
+          </div>
+          <details class="mt-2">
+            <summary class="font-bold font-mono cursor-pointer">
+              More info
+            </summary>
+            <p class="font-mono">
+              When enabled, games and matches will automatically restart after 5 seconds.
+              Disable this if you want to manually control when to start the next game or match.
+            </p>
+          </details>
+        </div>
         <div class="flex-col" data-testid="advanced-config">
           <h4 class="mb-2 text-2xl font-normal tracking-wider font-sports">
             Instant Correction Keys
@@ -366,6 +399,38 @@ export default function Setup(props: SetupProps) {
               If you have more keys available, you might want to bind keys to
               make corrections instantly with a single keybind instead of having
               to go to correction mode.
+            </p>
+          </details>
+        </div>
+        <div class="flex flex-col" data-testid="backlog-config">
+          <h4 class="mb-2 text-2xl font-normal tracking-wider font-sports">
+            Game Flow Backlog
+          </h4>
+          <div class="flex flex-col gap-2">
+            <label
+              for="backlogUrl"
+              class="font-normal tracking-wider text-black font-sports"
+            >
+              Backlog URL
+            </label>
+            <div class="border-2 border-transparent focus-within:border-black">
+              <input
+                type="url"
+                name="backlogUrl"
+                value={props.config.backlogUrl || ""}
+                data-testid="backlog-url-input"
+                id="backlogUrl"
+                placeholder="https://example.com/api/events"
+                class="py-2 px-4 w-full font-mono bg-white border-2 border-black focus:outline-none"
+              />
+            </div>
+          </div>
+          <details class="mt-2">
+            <summary class="font-bold font-mono cursor-pointer">
+              More info
+            </summary>
+            <p class="font-mono">
+              Enter a URL that returns game events in JSON format. The system will poll this URL every second for new events.
             </p>
           </details>
         </div>

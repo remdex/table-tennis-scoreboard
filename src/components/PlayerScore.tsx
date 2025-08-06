@@ -33,7 +33,7 @@ export default function PlayerScore(props: PlayerScoreProps) {
         <div class="flex-col items-center w-3/5 font-medium text-center">
           <div class="text-2xl md:text-5xl">Score</div>
           <div
-            class="leading-none text-[15rem] font-seven md:text-[21rem] transition-all duration-50 ease-out"
+            class="leading-none text-[15rem] font-seven md:text-[28rem] transition-all duration-50 ease-out"
             data-testid={`${props.testid}-score`}
           >
             <span
