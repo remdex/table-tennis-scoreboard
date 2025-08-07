@@ -28,17 +28,6 @@
     @apply ring-4 ring-white ring-offset-blue-700 ring-offset-2 outline-none rounded-none;
   }
 
-  /* Custom max-width classes - 30% larger than standard Tailwind values */
-  .max-w-4xl-130 {
-    max-width: 73rem; /* 1168px - 30% larger than 4xl (56rem/896px) */
-  }
-  
-  .xl\:max-w-7xl-130 {
-    @media (min-width: 1280px) {
-      max-width: 104rem; /* 1664px - 30% larger than 7xl (80rem/1280px) */
-    }
-  }
-
   .nav-link {
     @apply font-semibold text-black text-xl cursor-pointer rounded px-2;
   }
