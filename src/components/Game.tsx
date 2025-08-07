@@ -33,6 +33,7 @@ export default function Game() {
     // A game is an object with keys winner, player1score, and player2score
     gameLog: [],
     swapped: false,
+    initialServer: undefined,
   });
   const [config, setConfig] = createStore<GameConfig>({
     ...defaultGameConfig,
@@ -49,6 +50,7 @@ export default function Game() {
       }
       const player1Name = localStorage.getItem("player1Name");
       const player2Name = localStorage.getItem("player2Name");
+      const initialServer = localStorage.getItem("initialServer") as 'player1' | 'player2' | null;
       setMatchState((state) => ({
         ...state,
         player1: {
@@ -59,6 +61,7 @@ export default function Game() {
           ...state.player2,
           name: player2Name ?? state.player2.name,
         },
+        initialServer: initialServer || state.initialServer,
       }));
     }
   });
@@ -100,6 +103,7 @@ export default function Game() {
       },
       gameLog: [],
       swapped: false,
+      initialServer: state.initialServer, // Preserve the previous initial server choice
     }));
   };
 
@@ -117,7 +121,7 @@ export default function Game() {
       }}
       id="main-content"
     >
-      <div class="px-4 mx-auto max-w-4xl min-h-screen text-white xl:max-w-7xl">
+      <div class="px-4 mx-auto max-w-5xl min-h-screen text-white xl:max-w-none">
         <Switch fallback={<div>Not Implemented</div>}>
           <Match
             when={mode() === GameMode.Game || mode() === GameMode.Correction}

@@ -40,6 +40,7 @@ export type MatchState = {
   player2: Player;
   gameLog: GameResult[];
   swapped: boolean;
+  initialServer?: 'player1' | 'player2';
 };
 
 export enum BacklogEventType {

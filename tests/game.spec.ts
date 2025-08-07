@@ -528,4 +528,48 @@ test.describe("game", () => {
       ).not.toBeVisible();
     });
   });
+
+  test.describe("serving functionality", () => {
+    test("shows serve indicator for correct player", async ({ page }) => {
+      // At start (0-0), Player 1 should be serving (left player)
+      await expect(page.getByTestId("left-name")).toContainText("SERVE");
+      await expect(page.getByTestId("right-name")).not.toContainText("SERVE");
+
+      // After 1 point (1-0), Player 1 still serves
+      await page.getByTestId("left-button").click();
+      await expect(page.getByTestId("left-name")).toContainText("SERVE");
+      await expect(page.getByTestId("right-name")).not.toContainText("SERVE");
+
+      // After 2 points (2-0), Player 2 should serve
+      await page.getByTestId("left-button").click();
+      await expect(page.getByTestId("left-name")).not.toContainText("SERVE");
+      await expect(page.getByTestId("right-name")).toContainText("SERVE");
+
+      // After 3 points (3-0), Player 2 still serves
+      await page.getByTestId("left-button").click();
+      await expect(page.getByTestId("left-name")).not.toContainText("SERVE");
+      await expect(page.getByTestId("right-name")).toContainText("SERVE");
+
+      // After 4 points (4-0), Player 1 serves again
+      await page.getByTestId("left-button").click();
+      await expect(page.getByTestId("left-name")).toContainText("SERVE");
+      await expect(page.getByTestId("right-name")).not.toContainText("SERVE");
+    });
+
+    test("alternates starting server between games", async ({ page }) => {
+      // Game 1: Player 1 starts serving
+      await expect(page.getByTestId("left-name")).toContainText("SERVE");
+      
+      // Play a quick game where left wins
+      await setSideScore(page, "left", 11);
+      await setSideScore(page, "right", 5);
+      
+      // Start next game
+      await page.getByTestId("new-game-button").click();
+      
+      // Game 2: Player 2 should start serving (right player)
+      await expect(page.getByTestId("left-name")).not.toContainText("SERVE");
+      await expect(page.getByTestId("right-name")).toContainText("SERVE");
+    });
+  });
 });

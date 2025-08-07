@@ -28,6 +28,17 @@
     @apply ring-4 ring-white ring-offset-blue-700 ring-offset-2 outline-none rounded-none;
   }
 
+  /* Custom max-width classes - 30% larger than standard Tailwind values */
+  .max-w-4xl-130 {
+    max-width: 73rem; /* 1168px - 30% larger than 4xl (56rem/896px) */
+  }
+  
+  .xl\:max-w-7xl-130 {
+    @media (min-width: 1280px) {
+      max-width: 104rem; /* 1664px - 30% larger than 7xl (80rem/1280px) */
+    }
+  }
+
   .nav-link {
     @apply font-semibold text-black text-xl cursor-pointer rounded px-2;
   }
@@ -43,6 +54,45 @@
   .ltr {
     direction: ltr;
   }
+
+  .score-bounce {
+    animation: scoreBounce 0.4s ease-out;
+  }
+
+  .score-glow-increase {
+    text-shadow: 0 0 20px rgba(34, 197, 94, 0.8), 0 0 30px rgba(34, 197, 94, 0.6), 0 0 40px rgba(34, 197, 94, 0.4);
+  }
+
+  .score-glow-decrease {
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.8), 0 0 30px rgba(251, 191, 36, 0.6), 0 0 40px rgba(251, 191, 36, 0.4);
+  }
+
+  .score-glow-correction {
+    text-shadow: 0 0 20px rgba(251, 113, 133, 0.8), 0 0 30px rgba(251, 113, 133, 0.6), 0 0 40px rgba(251, 113, 133, 0.4);
+  }
+
+  .games-glow {
+    text-shadow: 0 0 15px rgba(34, 197, 94, 0.9), 0 0 25px rgba(34, 197, 94, 0.7), 0 0 35px rgba(34, 197, 94, 0.5);
+  }
+
+  @keyframes scoreBounce {
+    0% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(1.05);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    75% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
   .material-symbols--menu {
     display: inline-block;
     width: 24px;
