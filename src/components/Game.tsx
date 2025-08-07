@@ -21,12 +21,12 @@ export default function Game() {
   const [mode, setMode] = createSignal<GameMode>(GameMode.Game);
   const [matchState, setMatchState] = createStore<MatchState>({
     player1: {
-      name: "Home",
+      name: "Player 1",
       score: 0,
       games: 0,
     },
     player2: {
-      name: "Quest",
+      name: "Player 2",
       score: 0,
       games: 0,
     },
@@ -121,7 +121,7 @@ export default function Game() {
       }}
       id="main-content"
     >
-      <div class="px-4 mx-auto max-w-5xl min-h-screen text-white xl:max-w-none">
+      <div class="mx-auto max-w-5xl min-h-screen text-white xl:max-w-none">
         <Switch fallback={<div>Not Implemented</div>}>
           <Match
             when={mode() === GameMode.Game || mode() === GameMode.Correction}
