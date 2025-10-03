@@ -1,7 +1,7 @@
 # Improvements
 
 * Watch how live it's used https://youtu.be/vLBiCExWjcY
-* Live form version - https://tt.qu.lt/
+* Live version - https://tt.qu.lt/
 
 # Table Tennis Scoreboard
 
